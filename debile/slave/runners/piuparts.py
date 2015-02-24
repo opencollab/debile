@@ -75,7 +75,7 @@ def piuparts(chroot, target, analysis):
         for x in parse_piuparts(out.splitlines(), target):
             analysis.results.append(x)
 
-        return (analysis, out, failed, None, None)
+        return (analysis, out + err, failed, None, None)
 
 
 def version():

@@ -30,6 +30,7 @@ import logging
 
 logger = logging.getLogger('debile')
 
+
 def list_semantic_patches():
     root = os.path.join(os.environ['HOME'], 'coccinellery/CONTRIB/firehose')
     return glob.iglob(os.path.join(root, "*/*.cocci"))
@@ -37,7 +38,7 @@ def list_semantic_patches():
 
 def coccinelle(dsc, analysis):
     run_command(["dpkg-source", "-x", dsc, "source"])
-    os.environ['COCCI_SUT_TYPE'] = 'debian-source' # used by coccinelle firehose scripts
+    os.environ['COCCI_SUT_TYPE'] = 'debian-source'  # used by coccinelle firehose scripts
 
     with cd('source'):
         log = ""
@@ -52,7 +53,6 @@ def coccinelle(dsc, analysis):
                 "--no-show-diff",
                 "--timeout", "120",
             ])
-
 
             failed = (ret != 0) or failed
             logger.debug('Spatch output: {0}'.format(out))

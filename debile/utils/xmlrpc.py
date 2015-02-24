@@ -125,19 +125,19 @@ def get_proxy(config, auth_method):
     if auth_method == 'simple':
         proxy = xmlrpclib.ServerProxy(
             "http://{host}:{port}/".format(
-            host=xml['host'],
-            port=xml['port'],
+                host=xml['host'],
+                port=xml['port'],
             ),
             allow_none=True)
 
     else:
         proxy = xmlrpclib.ServerProxy(
-        "https://{host}:{port}/".format(
-            host=xml['host'],
-            port=xml['port'],
-        ), transport=DebileSafeTransport(
-            key_file=xml.get('keyfile', None),
-            cert_file=xml.get('certfile', None),
-            ca_certs=xml.get('ca_certs', "/etc/ssl/certs/ca-certificates.crt")
-        ), allow_none=True)
+            "https://{host}:{port}/".format(
+                host=xml['host'],
+                port=xml['port'],
+            ), transport=DebileSafeTransport(
+                key_file=xml.get('keyfile', None),
+                cert_file=xml.get('certfile', None),
+                ca_certs=xml.get('ca_certs', "/etc/ssl/certs/ca-certificates.crt")
+            ), allow_none=True)
     return proxy

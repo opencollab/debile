@@ -113,7 +113,7 @@ def clanganalyzer(package, suite, arch, analysis):
                 for issue in plist:
                     analysis.results.append(issue)
 
-        ### SCANDALOUS HACK !!
+        # SCANDALOUS HACK !!
         files = list()
         for dir in reports_dir:
             for f in glob.glob(dir + '/*.html') + glob.glob(dir + '/*.js') \

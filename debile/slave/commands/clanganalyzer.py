@@ -21,6 +21,7 @@
 
 from debile.slave.runners.clanganalyzer import clanganalyzer, version
 
+
 def run(dsc, package, job, firehose):
     suite = job['suite']
     # clanganalyzer can only run on source packages

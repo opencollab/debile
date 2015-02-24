@@ -41,5 +41,5 @@ def desktop_file_validate(package_root, analysis):
 
 
 def version():
-    #TODO
+    # TODO
     return ('desktop_file_validate', 'n/a')

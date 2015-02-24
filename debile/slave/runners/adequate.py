@@ -54,5 +54,5 @@ def adequate(chroot_name, target, package_name, analysis):
 
 
 def version():
-    #TODO
+    # TODO
     return ('adequate', 'n/a')

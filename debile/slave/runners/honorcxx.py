@@ -45,9 +45,11 @@ def honorcxx(package, suite, arch, analysis):
     with schroot(chroot_name) as chroot:
         # Let's install the real compilers
         out, err, code = chroot.run(['apt-get', 'update'], user='root')
-        out_, err, code = chroot.run(['apt-get', '-y', '--no-install-recommends',
-                                      'install', 'gcc', 'cpp', 'g++'
-                                  ], user='root')
+        out_, err, code = chroot.run([
+            'apt-get', '-y', '--no-install-recommends', 'install', 'gcc', 'cpp', 'g++'
+            ],
+            user='root'
+        )
         out += out_
         out += err
 
@@ -57,7 +59,6 @@ def honorcxx(package, suite, arch, analysis):
 
         out_, err, code = chroot.run(['chmod', '755', fake_compiler_path], user='root')
         out += err
-
 
         # Let's create the fake gcc
         out_, err, code = chroot.run(['rm', '-f', '/usr/bin/gcc'], user='root')
@@ -76,28 +77,44 @@ def honorcxx(package, suite, arch, analysis):
         out += err
 
         for bin in ['gcc', 'g++', 'cpp']:
-            out_, err, code = chroot.run(['ln', '-s', '/usr/bin/gcc',
-                                          '/usr/bin/{0}'.format(bin)
-                                      ], user='root')
+            out_, err, code = chroot.run([
+                'ln', '-s', '/usr/bin/gcc',
+                '/usr/bin/{0}'.format(bin)
+                ],
+                user='root'
+            )
             out += err
 
             for version in gcc_versions:
-                out_, err, code = chroot.run(['rm', '-f',
-                                              '/usr/bin/{0}-{1}'.format(bin, version)
-                                          ], user='root')
+                out_, err, code = chroot.run([
+                    'rm', '-f',
+                    '/usr/bin/{0}-{1}'.format(bin, version)
+                    ],
+                    user='root'
+                )
                 out += err
 
-                out_, err, code = chroot.run(['ln', '-s', '/usr/bin/gcc',
-                                              '/usr/bin/{0}-{1}'.format(bin, version)
-                                          ], user='root')
+                out_, err, code = chroot.run([
+                    'ln', '-s', '/usr/bin/gcc',
+                    '/usr/bin/{0}-{1}'.format(bin, version)
+                    ],
+                    user='root'
+                )
                 out += err
 
-                out_, err, code = chroot.run(['sh', '-c',
-                    'echo {0}-{1} hold | dpkg --set-selections'.format(bin, version)], user='root')
+                out_, err, code = chroot.run([
+                    'sh', '-c',
+                    'echo {0}-{1} hold | dpkg --set-selections'.format(bin, version)
+                    ],
+                    user='root'
+                )
                 out += err
 
-                out_, err, code = chroot.run(['sh', '-c',
-                    'echo {0}-{1}-base hold | dpkg --set-selections'.format(bin, version)], user='root')
+                out_, err, code = chroot.run([
+                    'sh', '-c',
+                    'echo {0}-{1}-base hold | dpkg --set-selections'.format(bin, version)],
+                    user='root'
+                )
                 out += err
 
         # cleanup previous result file
@@ -124,20 +141,23 @@ def honorcxx(package, suite, arch, analysis):
             #       line 70, in get_source_url
             # >>> url_quote(message)))
             # TypeError: %d format: a number is required, not Undefined
-            analysis.results.append(Issue(cwe=None,
-                                testid='0',
-                                location=Location(file=File('n/a', None),
-                                                  function=None),
-                                message=Message(text='Package does not honor CC/CXX'),
-                                severity='error',
-                                notes=None,
-                                trace=None,
-                            ))
+            analysis.results.append(
+                Issue(
+                    cwe=None,
+                    testid='0',
+                    location=Location(
+                        file=File('n/a', None),
+                        function=None
+                    ),
+                    message=Message(text='Package does not honor CC/CXX'),
+                    severity='error',
+                    notes=None,
+                    trace=None,)
+            )
 
             os.remove('/tmp/no-honor-cxx')
 
         return (analysis, out, failed, None, None)
-
 
 
 def version():
