@@ -8,7 +8,7 @@ before_install:
   - pip install -e firewoes
 install: "pip install -r requirements.txt"
 before_script:
-  - mkdir ~/.config/debile/
+  - mkdir -p ~/.config/debile/
   - cp eg/etc/debile/master.yaml ~/.config/debile/
 # command to run tests
 script: nosetests
