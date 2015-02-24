@@ -35,16 +35,15 @@ This code deals with the reading and processing of Debian .changes files. This
 code is copyright (c) Jonny Lamb, and is used by dput, rather then created as
 a result of it. Thank you Jonny.
 """
-
-__author__ = 'Jonny Lamb'
-__copyright__ = 'Copyright © 2008 Jonny Lamb, Copyright © 2010 Jan Dittberner'
-__license__ = 'MIT'
-
 from debile.utils.commands import run_command
 from debile.utils import deb822
 import hashlib
 import os.path
 import sys
+
+__author__ = 'Jonny Lamb'
+__copyright__ = 'Copyright © 2008 Jonny Lamb, Copyright © 2010 Jan Dittberner'
+__license__ = 'MIT'
 
 
 class ChangesFileException(Exception):
