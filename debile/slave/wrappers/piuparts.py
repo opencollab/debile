@@ -48,7 +48,7 @@ def parse_piuparts(lines, path):
                 if re.findall(expr, cur_msg) != []:
                     obj.testid = k
                     break
-        #if obj.testid is None:
+        # if obj.testid is None:
         #    print(cur_msg)
         #    raise Exception
         return obj

@@ -74,7 +74,7 @@ def safe_run(cmd, input=None, expected=0):
 
     out, err, ret = run_command(cmd, input=input)
 
-    if not ret in expected:
+    if ret not in expected:
         raise SubprocessError(out, err, ret, cmd)
 
     return out, err, ret

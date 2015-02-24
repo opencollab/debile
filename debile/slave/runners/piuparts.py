@@ -79,5 +79,5 @@ def piuparts(chroot, target, analysis):
 
 
 def version():
-    #TODO
+    # TODO
     return ('piuparts', 'n/a')

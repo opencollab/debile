@@ -30,6 +30,7 @@ class RepoException(Exception):
 class RepoSourceAlreadyRegistered(RepoException):
     pass
 
+
 class RepoPackageNotFound(RepoException):
     def __init__(self, package):
         self.package = package
@@ -95,4 +96,4 @@ class Repo(object):
                 return (entry['Directory'], dsc)
 
         raise RepoPackageNotFound('{0}-{1}'.format(source.name,
-                                             source.version))
+                                                   source.version))

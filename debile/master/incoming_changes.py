@@ -64,7 +64,7 @@ def process_changes(default_group, config, session, path):
     except NoResultFound:
         return reject_changes(session, changes, "invalid-group")
 
-    #### Sourceful Uploads
+    # Sourceful Uploads
     if changes.is_source_only_upload():
         try:
             user = session.query(Person).filter_by(pgp=fingerprint).one()
@@ -72,7 +72,7 @@ def process_changes(default_group, config, session, path):
             return reject_changes(session, changes, "invalid-user")
         return accept_source_changes(default_group, config, session, changes, user)
 
-    #### Binary Uploads
+    # Binary Uploads
     if changes.is_binary_only_upload():
         try:
             builder = session.query(Builder).filter_by(pgp=fingerprint).one()
@@ -232,7 +232,7 @@ def accept_binary_changes(default_group, config, session, changes, builder):
         deb = Deb(binary=binaries[arch], directory=directory, filename=entry['name'])
         session.add(deb)
 
-    ## OK. Let's make sure we can add this.
+    # OK. Let's make sure we can add this.
     try:
         repo = Repo(job.group.repo_path)
         repo.add_changes(changes)
