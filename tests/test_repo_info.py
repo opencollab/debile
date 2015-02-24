@@ -36,7 +36,7 @@ def test_repo_info():
 
 
 def test_repo_props():
-    config['repo']
+    c = config['repo']
     config['repo'] = {
         "repo_path": "/srv/debile/pool/{name}",
         "repo_url": "http://localhost/debile/pool/{name}",
