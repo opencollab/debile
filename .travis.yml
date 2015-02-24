@@ -16,6 +16,6 @@ before_script:
 
 # command to run tests
 script:
- - coverage run --source=. nosetests
+ - coverage run --source=. $(which nosetests)
  - flake8 debile/ --max-line-length=200
 after_success: coveralls
