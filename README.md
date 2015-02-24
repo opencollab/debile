@@ -38,4 +38,5 @@ Run tests
 =========
 
 $ apt-get install python-nose
+
 $ nosetests
