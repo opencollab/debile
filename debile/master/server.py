@@ -42,7 +42,7 @@ import ssl
 def check_shutdown():
     with session() as s:
         shutdown = not s.query(exists().where(
-            (Job.assigned_at != None) & (Job.finished_at == None))
+            (Job.assigned_at is not None) & (Job.finished_at is None))
         ).scalar()
         if shutdown:
             raise SystemExit(0)
@@ -83,6 +83,7 @@ class DebileMasterAuthMixIn(SimpleXMLRPCRequestHandler):
         if DebileMasterInterface.shutdown_request:
             check_shutdown()
 
+
 class DebileMasterSimpleAuthMixIn(SimpleXMLRPCRequestHandler):
     def authenticate(self):
         client_address, _ = self.client_address
@@ -119,7 +120,7 @@ class DebileMasterSimpleAuthMixIn(SimpleXMLRPCRequestHandler):
 
 
 class SimpleAsyncXMLRPCServer(SocketServer.ThreadingMixIn,
-                             DebileMasterSimpleAuthMixIn):
+                              DebileMasterSimpleAuthMixIn):
     pass
 
 
@@ -136,7 +137,6 @@ class SimpleAuthXMLRPCServer(SimpleXMLRPCServer):
                                     requestHandler=requestHandler,
                                     bind_and_activate=bind_and_activate,
                                     allow_none=allow_none)
-
 
 
 class SecureXMLRPCServer(SimpleXMLRPCServer):
@@ -177,18 +177,19 @@ def serve(server_addr, port, auth_method,
     server = None
     if auth_method == 'simple':
         server = SimpleAuthXMLRPCServer((server_addr, port),
-                                   requestHandler=SimpleAsyncXMLRPCServer,
-                                   allow_none=True)
+                                        requestHandler=SimpleAsyncXMLRPCServer,
+                                        allow_none=True)
 
     else:
         server = SecureXMLRPCServer((server_addr, port), keyfile, certfile,
-                                ca_certs=ssl_keyring,
-                                requestHandler=AsyncXMLRPCServer,
-                                allow_none=True)
+                                    ca_certs=ssl_keyring,
+                                    requestHandler=AsyncXMLRPCServer,
+                                    allow_none=True)
 
     server.register_introspection_functions()
     server.register_instance(DebileMasterInterface(ssl_keyring, pgp_keyring))
     server.serve_forever()
+
 
 def system_exit_handler(signum, frame):
     raise SystemExit(1)

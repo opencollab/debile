@@ -318,14 +318,14 @@ class GroupSuite(Base):
 
     def get_source_checks(self):
         return [x for x in self.checks
-                if x.source == True and x.build == False]
+                if x.source is True and x.build is False]
 
     def get_binary_checks(self):
         return [x for x in self.checks
-                if x.binary == True and x.build == False]
+                if x.binary is True and x.build is False]
 
     def get_build_checks(self):
-        return [x for x in self.checks if x.build == True]
+        return [x for x in self.checks if x.build is True]
 
     def __str__(self):
         return "%s/%s" % (self.group, self.suite)
@@ -691,7 +691,7 @@ class Job(Base):
             raise ValueError("add_binary() is for build jobs only!")
 
         arch = arch or self.arch
-        if not arch.name in [self.arch.name, "all"]:
+        if arch.name not in [self.arch.name, "all"]:
             raise ValueError("add_binary() called with invalid arch!")
 
         binary = Binary(build_job=self, source=self.source, arch=arch,

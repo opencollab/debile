@@ -44,7 +44,7 @@ def _init_sqlalchemy(config):
 def _init_fedmsg(config):
     global fedmsg
 
-    if not 'fedmsg' in config:
+    if 'fedmsg' not in config:
         return
 
     try:

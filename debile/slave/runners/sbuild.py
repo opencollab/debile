@@ -113,7 +113,6 @@ def sbuild(package, maintainer, suite, affinity, build_arch, build_indep, analys
 
     sbuild_cmd += [package]
 
-
     out, err, ret = run_command(sbuild_cmd)
 
     summary = False

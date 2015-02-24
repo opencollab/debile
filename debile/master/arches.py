@@ -41,7 +41,7 @@ def arch_matches(arch, alias):
     if alias == 'linux-any':
         # GNU/Linux arches are named <cpuabi>
         # Other Linux arches are named <libc>-linux-<cpuabi>
-        return not '-' in arch or 'linux' in arch.split('-')
+        return '-' not in arch or 'linux' in arch.split('-')
 
     if alias.endswith('-any'):
         # Non-Linux GNU/<os> arches are named <os>-<cpuabi>
@@ -49,7 +49,7 @@ def arch_matches(arch, alias):
         osname, _ = alias.split('-', 1)
         return osname in arch.split('-')
 
-    if not "-" in arch and not "-" in alias:
+    if "-" not in arch and "-" not in alias:
         return False
 
     # This is a fucking disaster for perf. Do what we can to not get here.

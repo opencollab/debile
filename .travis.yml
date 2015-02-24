@@ -9,10 +9,13 @@ before_install:
 install: 
   - pip install -r requirements.txt
   - pip install coveralls
+  - pip install flake8
 before_script:
   - mkdir -p ~/.config/debile/
   - cp eg/etc/debile/master.yaml ~/.config/debile/
-# command to run tests
-script: coverage run --source=. nosetests
-after_success: coveralls
 
+# command to run tests
+script:
+ - coverage run --source=. nosetests
+ - flake8 debile/ --max-line-length=200
+after_success: coveralls

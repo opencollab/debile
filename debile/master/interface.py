@@ -20,8 +20,7 @@
 # DEALINGS IN THE SOFTWARE.
 
 from debile.master.orm import (Person, Builder, Suite, Component, Arch, Check,
-                               Group, GroupSuite, Source, Binary, Job,
-                               job_dependencies)
+                               Group, GroupSuite, Source, Binary, Job)
 from debile.master.keyrings import import_pgp, import_ssl, clean_ssl_keyring
 from debile.master.utils import emit
 
@@ -112,9 +111,9 @@ class DebileMasterInterface(object):
         arches = [x for x in arches if x not in ["source", "all"]]
         job = NAMESPACE.session.query(Job).join(Job.source).join(Source.group_suite).filter(
             ~Job.depedencies.any(),
-            Job.dose_report == None,
-            Job.assigned_at == None,
-            Job.finished_at == None,
+            Job.dose_report is None,
+            Job.assigned_at is None,
+            Job.finished_at is None,
             Job.failed.is_(None),
             GroupSuite.suite.has(Suite.name.in_(suites)),
             Source.component.has(Component.name.in_(components)),
@@ -338,8 +337,8 @@ class DebileMasterInterface(object):
         cutoff = datetime.utcnow() - timedelta(hours=1)
         jobs = NAMESPACE.session.query(Job).filter(
             ~Job.built_binaries.any(),
-            Job.check.has(Check.build == True),
-            Job.finished_at != None,
+            Job.check.has(Check.build is True),
+            Job.finished_at is not None,
             Job.finished_at < cutoff,
         )
 

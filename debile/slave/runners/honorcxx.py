@@ -37,7 +37,7 @@ exit 0
 
 fake_compiler_path = '/usr/bin/fake-compiler'
 
-gcc_versions = ['4.6', '4.7', '4.8', '4.9',]
+gcc_versions = ['4.6', '4.7', '4.8', '4.9', ]
 
 
 def honorcxx(package, suite, arch, analysis):
@@ -46,7 +46,7 @@ def honorcxx(package, suite, arch, analysis):
         # Let's install the real compilers
         out, err, code = chroot.run(['apt-get', 'update'], user='root')
         out_, err, code = chroot.run(['apt-get', '-y', '--no-install-recommends',
-                                     'install', 'gcc', 'cpp', 'g++'
+                                      'install', 'gcc', 'cpp', 'g++'
                                   ], user='root')
         out += out_
         out += err
