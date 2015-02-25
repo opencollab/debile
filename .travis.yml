@@ -19,3 +19,6 @@ script:
  - coverage run --source=. $(which nosetests)
  - flake8 debile/ --max-line-length=200
 after_success: coveralls
+
+notifications:
+  irc: "irc.oftc.net#debile"
