@@ -1,0 +1,38 @@
+---
+Users:  # Users of Debile
+    - name: Clement Schreiner
+      email: clement@mux.me
+      pgp: 57DC4BD33F73E0CDBA98D22AF7EBEE8EB7982329
+      ip: 127.0.0.1
+Builders:  # Machines that can build
+    - name: helios.pault.ag
+      maintainer: clement@mux.me
+      pgp: 0C267E932994895CDE7B6B3ECB4315D1BC490D41
+      ip: 127.0.0.2
+Suites:
+    - name: unstable
+
+Components:
+    - name: main
+
+Arches:
+    - name: amd64
+
+Checks:
+    - name: lintian
+      source: true
+      binary: true
+      build: false
+
+Groups:
+    - name: default
+      maintainer: clement@mux.me
+
+      suites:
+          - suite: unstable
+            components:
+                - main
+            arches:
+                - amd64
+            checks:
+                - lintian
