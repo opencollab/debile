@@ -19,6 +19,10 @@ before_script:
 # command to run tests
 script:
  - coverage run --source=. $(which nosetests)
- - flake8 debile/ --ignore E711,E302,E241,E123 --max-line-length=200
+
+# flake8
+# warnings ignored:
+# * E241 (multiple spaces after ':', ',') -> we want to align stuff
+ - flake8 debile/ --ignore E711,E241 --max-line-length=200
 after_success:
  - coveralls

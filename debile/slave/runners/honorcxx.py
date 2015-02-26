@@ -47,7 +47,7 @@ def honorcxx(package, suite, arch, analysis):
         out, err, code = chroot.run(['apt-get', 'update'], user='root')
         out_, err, code = chroot.run([
             'apt-get', '-y', '--no-install-recommends', 'install', 'gcc', 'cpp', 'g++'
-            ],
+        ],
             user='root'
         )
         out += out_
@@ -80,7 +80,7 @@ def honorcxx(package, suite, arch, analysis):
             out_, err, code = chroot.run([
                 'ln', '-s', '/usr/bin/gcc',
                 '/usr/bin/{0}'.format(bin)
-                ],
+            ],
                 user='root'
             )
             out += err
@@ -89,7 +89,7 @@ def honorcxx(package, suite, arch, analysis):
                 out_, err, code = chroot.run([
                     'rm', '-f',
                     '/usr/bin/{0}-{1}'.format(bin, version)
-                    ],
+                ],
                     user='root'
                 )
                 out += err
@@ -97,7 +97,7 @@ def honorcxx(package, suite, arch, analysis):
                 out_, err, code = chroot.run([
                     'ln', '-s', '/usr/bin/gcc',
                     '/usr/bin/{0}-{1}'.format(bin, version)
-                    ],
+                ],
                     user='root'
                 )
                 out += err
@@ -105,14 +105,15 @@ def honorcxx(package, suite, arch, analysis):
                 out_, err, code = chroot.run([
                     'sh', '-c',
                     'echo {0}-{1} hold | dpkg --set-selections'.format(bin, version)
-                    ],
+                ],
                     user='root'
                 )
                 out += err
 
                 out_, err, code = chroot.run([
                     'sh', '-c',
-                    'echo {0}-{1}-base hold | dpkg --set-selections'.format(bin, version)],
+                    'echo {0}-{1}-base hold | dpkg --set-selections'.format(bin, version)
+                ],
                     user='root'
                 )
                 out += err
