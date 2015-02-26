@@ -13,6 +13,7 @@ install:
 env:
   - DATABASE_URI='postgres://postgres:@localhost:5432/debile_tests'
 before_script:
+  - flake8 --version
   - psql -c 'create database debile_tests;' -U postgres
 
 # command to run tests
@@ -21,4 +22,3 @@ script:
  - flake8 debile/ --ignore E711 --max-line-length=200
 after_success:
  - coveralls
- - flake8 --version
