@@ -1,7 +1,7 @@
 from debile.master.orm import Group
 from debile.master.utils import init_master
 
-config = init_master()
+config = init_master(confpath='tests/resources/master.yaml')
 g = Group(name="foo")
 
 

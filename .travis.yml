@@ -11,8 +11,8 @@ install:
   - pip install coveralls
   - pip install flake8
 before_script:
-  - mkdir -p ~/.config/debile/
-  - cp eg/etc/debile/master.yaml ~/.config/debile/
+#  - mkdir -p ~/.config/debile/
+#  - cp eg/etc/debile/master.yaml ~/.config/debile/
 
 # command to run tests
 script:
