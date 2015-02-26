@@ -42,7 +42,7 @@ import ssl
 def check_shutdown():
     with session() as s:
         shutdown = not s.query(exists().where(
-            (Job.assigned_at is not None) & (Job.finished_at is None))
+            (Job.assigned_at != None) & (Job.finished_at == None))
         ).scalar()
         if shutdown:
             raise SystemExit(0)

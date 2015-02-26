@@ -103,7 +103,7 @@ def main(args, config):
         if not s.query(exists().where(Person.id == Person.id)).scalar():
             print "No users in yaml file '%s'" % args.file
             sane = False
-        elif not s.query(exists().where((Person.ssl is not None) & (Person.ssl != DEADBEEF))).scalar():
+        elif not s.query(exists().where((Person.ssl != None) & (Person.ssl != DEADBEEF))).scalar():
             print "No enabled users in yaml file '%s' (user 'ssl' key missing or dummy 'DEADBEEF' string)" % args.file
             sane = False
 
