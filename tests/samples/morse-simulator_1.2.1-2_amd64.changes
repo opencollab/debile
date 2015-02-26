@@ -1,0 +1,63 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+Format: 1.8
+Date: Sun, 21 Dec 2014 19:10:50 +0100
+Source: morse-simulator
+Binary: morse-simulator morse-simulator-data morse-simulator-doc python3-morse-simulator
+Architecture: source amd64 all
+Version: 1.2.1-2
+Distribution: unstable
+Urgency: medium
+Maintainer: Debian Science Team <debian-science-maintainers@lists.alioth.debian.org>
+Changed-By: Sylvestre Ledru <sylvestre@debian.org>
+Description:
+ morse-simulator - Multi-OpenRobot Simulation Engine
+ morse-simulator-data - Multi-OpenRobot Simulation Engine
+ morse-simulator-doc - Multi-OpenRobot Simulation Engine - Documentation
+ python3-morse-simulator - Multi-OpenRobot Simulation Engine
+Closes: 771132
+Changes:
+ morse-simulator (1.2.1-2) unstable; urgency=medium
+ .
+   [ Tobias Hansen ]
+   * Allow running with Blender 2.72. (Closes: #771132)
+Checksums-Sha1:
+ 733dddd62bb4be1665485581a89a59ac3aad60ba 2341 morse-simulator_1.2.1-2.dsc
+ a85a73c8b793155bcb91b0314158ef16367d4d91 6828 morse-simulator_1.2.1-2.debian.tar.xz
+ fdb4bf88e8a515be669272a8e61a4da2b90a955a 36216 morse-simulator_1.2.1-2_amd64.deb
+ f9eb8bcb42d22ba091026f53f4bd9454712f5f9d 64176290 morse-simulator-data_1.2.1-2_all.deb
+ 7cdf4ed923388480dd77b5ac494cdfd5506bc04f 13205806 morse-simulator-doc_1.2.1-2_all.deb
+ c158e443783c8e5329b34695bf2f86f461f482de 164968 python3-morse-simulator_1.2.1-2_amd64.deb
+Checksums-Sha256:
+ 63e33dd10a28a0bc24240de7b896617d70494aa712a63509c4f4cf84daffd730 2341 morse-simulator_1.2.1-2.dsc
+ 6dac904c964ca5faa02bca3b8ec010b96bfcfa9199379ed6d3517cd9d60ddbae 6828 morse-simulator_1.2.1-2.debian.tar.xz
+ 09e1100caea63d5cc49a03c0f18ea79b925d33c12da01274c6854a5316faab45 36216 morse-simulator_1.2.1-2_amd64.deb
+ f8b3c479108867e2ef107edce69d91d3c2e69cd25a54b75d2735bc56c3554255 64176290 morse-simulator-data_1.2.1-2_all.deb
+ 68375851efe3502b00d8b640f5a405c2875bf7019c29852f6b4d528989742666 13205806 morse-simulator-doc_1.2.1-2_all.deb
+ 4f6d6ebe9de192dbb5bcf28a5e969c0dac522c47dd66e120abfa6b47b03d4183 164968 python3-morse-simulator_1.2.1-2_amd64.deb
+Files:
+ 104a7cf9e046bb3be410adc0883541cb 2341 science extra morse-simulator_1.2.1-2.dsc
+ f114e28e37b2e800b08e95e93fd6d862 6828 science extra morse-simulator_1.2.1-2.debian.tar.xz
+ 2860a51b0627f54c2a44d173ad690a9d 36216 science extra morse-simulator_1.2.1-2_amd64.deb
+ 9b0539c182d033a12cfcb76fd048cfea 64176290 science extra morse-simulator-data_1.2.1-2_all.deb
+ fa9e7d1b775a1f9cfe35ab49f2f9659d 13205806 doc extra morse-simulator-doc_1.2.1-2_all.deb
+ a3cdcb32921d01ca20ba44458328e838 164968 science extra python3-morse-simulator_1.2.1-2_amd64.deb
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJUlzJOAAoJEH5lKNp1Lxvh7fkQAIYH3vV29GEIkjqbePz09tTG
+Pt1N3AG3g2zg9ayI0q/10EHyGo1wzfBui/JRcCuIK/wLeNWX68MpfRBP4RXQxTdd
+/mTpI13kqarltslQx0yy1A6SfcgFBe85ggsT/oG/dbqpwa0iv7wjK6y53LPBHchF
+dkdApoM1BKWjHBO1tt5nPnmbGTI4f5HRbdUgnh1UuRrgzQk95HOZSAxbsegA5yC+
++7ntYe2THKZJg89KAksi6ndMomEANx4ZRvoCecy0J0mGWqB3L4TJZa4/AOn93t8V
+epBXJyxEPHlhw6hn6qg/H5zZlEDXFwlTFshl7zVz1PIbY8ErgXeljYS0rWALtigJ
+6mHnZ1c2HipnbjJ3wM+xYjWDHdigLl9o6HgADyy7bp5PSZ11jZIooMQjwGdcBbva
+611vT58W3/gp971Fp+BTxbErAXG2HKMN1xCQ+glgutmfz7L90xWns2YycDEZo3ox
+Np/OfgjWoV4dVTSN/gBuiKq8SPDJElkbjbh7TEarWoINWD9oQYT32NULTzcROGY8
+NaRVPkqOA1lZvVxdSFtPa4qTxAaYAuuOI4IcHsawM8qskzFgF6A2nK4r0kNuxg0J
+DJSKzbVWlV4LzTSt8XLENCxa7gntrcnGx0oLHJPUY4lbLrBDIYQM7QliBlGa3AWQ
+fLO/K4EPkrjjo2CxOCE5
+=+JDH
+-----END PGP SIGNATURE-----
