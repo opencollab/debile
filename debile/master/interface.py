@@ -111,9 +111,9 @@ class DebileMasterInterface(object):
         arches = [x for x in arches if x not in ["source", "all"]]
         job = NAMESPACE.session.query(Job).join(Job.source).join(Source.group_suite).filter(
             ~Job.depedencies.any(),
-            Job.dose_report is None,
-            Job.assigned_at is None,
-            Job.finished_at is None,
+            Job.dose_report == None,
+            Job.assigned_at == None,
+            Job.finished_at == None,
             Job.failed.is_(None),
             GroupSuite.suite.has(Suite.name.in_(suites)),
             Source.component.has(Component.name.in_(components)),
@@ -349,7 +349,7 @@ class DebileMasterInterface(object):
         jobs = NAMESPACE.session.query(Job).filter(
             ~Job.built_binaries.any(),
             Job.check.has(Check.build is True),
-            Job.finished_at is not None,
+            Job.finished_at != None,
             Job.finished_at < cutoff,
         )
 
