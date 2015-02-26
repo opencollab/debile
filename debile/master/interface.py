@@ -177,19 +177,30 @@ class DebileMasterInterface(object):
     # Creating builders/users
 
     @user_method
-    def create_builder(self, name, pgp, ssl):
-        if self.ssl_keyring is None:
-            # TODO: handle this correctly
-            raise Exception
+    def create_builder(self, name, pgp, ssl=None, ip=None):
+        """
+        :param str name: name of the builder
+        :param str pgp: path to the pgp public keyfile
+        :param str ssl: path to the ssl certificate
+        :param str ip: ip address of the builder
+        """
 
         if NAMESPACE.session.query(Builder).filter_by(name=name).first():
             raise ValueError("Slave already exists.")
 
         pgp = import_pgp(self.pgp_keyring, pgp)
-        ssl = import_ssl(self.ssl_keyring, ssl, name)
+        if ssl is not None:
+            ssl = import_ssl(self.ssl_keyring, ssl, name)
+            b = Builder(name=name, maintainer=NAMESPACE.user, pgp=pgp, ssl=ssl,
+                        last_ping=datetime.utcnow())
 
-        b = Builder(name=name, maintainer=NAMESPACE.user, pgp=pgp, ssl=ssl,
-                    last_ping=datetime.utcnow())
+        elif ip is not None:
+            b = Builder(name=name, maintainer=NAMESPACE.user, pgp=pgp, ip=ip,
+                        last_ping=datetime.utcnow())
+
+        else:
+            raise ValueError("Need either ssl certificate or ip address")
+
         NAMESPACE.session.add(b)
 
         emit('create', 'slave', b.debilize())

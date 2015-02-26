@@ -44,8 +44,22 @@ def _create_slave(proxy, name, pgp, ssl):
         print("   %s when trying to open %s" % (str(e), ssl))
         raise
 
-    print(proxy.create_builder(name, pgp, ssl))
+    print(proxy.create_builder(name, pgp, ssl, None))
 
+def _create_slave_ip(proxy, name, pgp, ip):
+    """
+        Create a slave using simple authentication:
+            debile-remote create-slave-ip <name> <pgp-key> <ip address>
+    """
+
+    try:
+        pgp = open(pgp, 'r').read()
+    except IOError as e:
+        print("Error whilst opening OpenPGP public key.")
+        print("   %s when trying to open %s" % (str(e), pgp))
+        raise
+
+    print(proxy.create_builder(name, pgp, None, ip))
 
 def _update_slave_keys(proxy, name, pgp, ssl):
     """
@@ -193,6 +207,7 @@ def _help():
 
 COMMANDS = {
     "create-slave": _create_slave,
+    "create-slave-ip": _create_slave_ip,
     "update-slave-keys": _update_slave_keys,
     "disable-slave": _disable_slave,
     "create-user": _create_user,
