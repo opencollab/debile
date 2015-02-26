@@ -35,7 +35,7 @@ def import_pgp(keyring, keydata):
     """
 
     out, err, ret = run_command([
-        "gpg", "--batch", "--status-fd", "1"
+        "gpg", "--batch", "--status-fd", "1",
         "--no-default-keyring", "--keyring", keyring,
         "--import"
     ], input=keydata)
