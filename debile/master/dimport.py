@@ -133,6 +133,7 @@ def dimport(args, s):
         if not sane and not args.force:
             raise Exception("Sanity checks failed, use --force to override")
 
+
 def main(args, config):
     with session() as s:
         dimport(args, s)

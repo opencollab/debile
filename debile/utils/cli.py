@@ -46,6 +46,7 @@ def _create_slave(proxy, name, pgp, ssl):
 
     print(proxy.create_builder(name, pgp, ssl, None))
 
+
 def _create_slave_ip(proxy, name, pgp, ip):
     """
         Create a slave using simple authentication:
@@ -60,6 +61,7 @@ def _create_slave_ip(proxy, name, pgp, ip):
         raise
 
     print(proxy.create_builder(name, pgp, None, ip))
+
 
 def _update_slave_keys(proxy, name, pgp, ssl):
     """
