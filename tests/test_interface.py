@@ -10,8 +10,6 @@ import os
 import unittest
 
 
-
-
 class DebileInterfaceTestCase(unittest.TestCase):
     def setUp(self):
         # setup the database
@@ -32,13 +30,14 @@ class DebileInterfaceTestCase(unittest.TestCase):
         dimport(args, self.session)
 
         # some more setting up
-        u = self.session.query(Person).filter_by(email='clement@mux.me').first()
+        u = self.session.query(Person).filter_by(
+            email='clement@mux.me'
+        ).first()
         NAMESPACE.user = u
 
         self.blade01_key = None
         with open('tests/resources/blade01.pgp') as f:
             self.blade01_key = f.read()
-
 
     def test_create_builder(self):
         interface = DebileMasterInterface(pgp_keyring=u'tests/resources/keyring')
@@ -47,5 +46,6 @@ class DebileInterfaceTestCase(unittest.TestCase):
 
         b = self.session.query(Builder).filter_by(name='blade01').one()
 
-        assert b.ssl == None
+        assert b.ssl is None
         assert b.ip == '10.0.0.1'
+        assert b.pgp == '7C367D02AF6D20DCF2BFB686E8D62122F818733D'
