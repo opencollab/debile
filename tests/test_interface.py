@@ -13,7 +13,11 @@ import unittest
 class DebileInterfaceTestCase(unittest.TestCase):
     def setUp(self):
         # setup the database
-        engine = create_engine(os.environ['DATABASE_URI'],
+        if 'DATABASE_URI' in os.environ:
+            db_URI = os.environ['DATABASE_URI']
+        else:
+            db_URI = 'postgres://postgres:@localhost:5432/debile_tests'
+        engine = create_engine(db_URI,
                                implicit_returning=False)
 
         Session = sessionmaker()
