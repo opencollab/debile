@@ -2,7 +2,6 @@ from debile.master.dimport import dimport
 from debile.master.interface import DebileMasterInterface, NAMESPACE
 from debile.master.orm import Base, Builder, Person
 
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -16,7 +15,8 @@ class DebileInterfaceTestCase(unittest.TestCase):
         if 'DATABASE_URI' in os.environ:
             db_URI = os.environ['DATABASE_URI']
         else:
-            db_URI = 'postgres://postgres:@localhost:5432/debile_tests'
+            # See README.md for the doc
+            db_URI = 'postgres://debile:foobar@127.0.0.1:5432/debile_tests'
         engine = create_engine(db_URI,
                                implicit_returning=False)
 

@@ -34,6 +34,16 @@ All topics are under:
     `-- result
         |-- receive
 
+Postgresql install
+==================
+
+$ sudo -u postgres createuser debile
+$ sudo -u postgres psql -c "ALTER USER debile WITH PASSWORD 'foobar';"
+$ sudo -u postgres createdb -E UTF-8 -O debile debile
+
+For the tests:
+$ sudo -u postgres createdb -E UTF-8 -O debile debile_tests
+
 Run tests
 =========
 
