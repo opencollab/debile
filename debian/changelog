@@ -1,3 +1,10 @@
+debile (1.3.2) UNRELEASED; urgency=medium
+
+  * Update of the VCS- flags
+  * Standards-Version updated to 3.9.6
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Mon, 02 Mar 2015 14:10:00 +0100
+
 debile (1.3.1) experimental; urgency=medium
 
   * Initial release.
