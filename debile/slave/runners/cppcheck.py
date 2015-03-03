@@ -25,8 +25,8 @@ from debile.utils.commands import run_command
 
 
 def cppcheck(dsc, analysis):
-    run_command(["dpkg-source", "-x", dsc, "source"])
-    with cd('source'):
+    run_command(["dpkg-source", "-x", dsc, "source-cppcheck"])
+    with cd('source-cppcheck'):
         out, err, ret = run_command([
             'cppcheck', '-j8', '--enable=all', '.', '--xml'
         ])

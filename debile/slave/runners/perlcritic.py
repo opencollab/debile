@@ -25,8 +25,8 @@ from debile.utils.commands import run_command
 
 
 def perlcritic(dsc, analysis):
-    run_command(["dpkg-source", "-x", dsc, "source"])
-    with cd('source'):
+    run_command(["dpkg-source", "-x", dsc, "source-perlcritic"])
+    with cd('source-perlcritic'):
         out, err, ret = run_command([
             'perlcritic', '--brutal', '.', '--verbose',
             '%f:%l:%c %s    %p    %m\n'

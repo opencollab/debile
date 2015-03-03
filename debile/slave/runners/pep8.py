@@ -25,8 +25,8 @@ from debile.utils.commands import run_command
 
 
 def pep8(dsc, analysis):
-    run_command(["dpkg-source", "-x", dsc, "source"])
-    with cd('source'):
+    run_command(["dpkg-source", "-x", dsc, "source-pep8"])
+    with cd('source-pep8'):
         out, err, ret = run_command(['pep8', '.'])
         failed = ret != 0
 

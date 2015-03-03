@@ -37,10 +37,10 @@ def list_semantic_patches():
 
 
 def coccinelle(dsc, analysis):
-    run_command(["dpkg-source", "-x", dsc, "source"])
+    run_command(["dpkg-source", "-x", dsc, "source-coccinelle"])
     os.environ['COCCI_SUT_TYPE'] = 'debian-source'  # used by coccinelle firehose scripts
 
-    with cd('source'):
+    with cd('source-coccinelle'):
         log = ""
         failed = False
         for semantic_patch in list_semantic_patches():
