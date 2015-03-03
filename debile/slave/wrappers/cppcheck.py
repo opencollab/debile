@@ -27,7 +27,7 @@ import lxml.etree
 
 
 def parse_cppcheck(payload):
-    tree = lxml.etree.fromstring(payload)
+    tree = lxml.etree.fromstring(payload.encode('utf-16'))
     for result in tree.xpath("//results/error"):
 
         if 'file' not in result.attrib:
