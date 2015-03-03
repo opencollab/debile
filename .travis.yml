@@ -7,7 +7,7 @@ before_install:
   - git clone -b iterative_uniquify https://github.com/clemux/firewoes.git ../firewoes
   - pip install -e ../firewoes
   - sudo apt-get update
-  - sudo apt-get install -qq cppcheck python-lxml python-schroot
+  - sudo apt-get install -qq cppcheck
 install:
   - pip install -r requirements.txt
   - pip install coveralls
