@@ -2,9 +2,4 @@ python-debian
 chardet
 pyyaml
 requests
-dput
-
-# For cppcheck
-schroot
-lxml
 

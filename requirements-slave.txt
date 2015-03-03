@@ -5,3 +5,7 @@ requests
 dput
 firehose
 schroot
+
+# For cppcheck
+lxml
+

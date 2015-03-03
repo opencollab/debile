@@ -10,6 +10,8 @@ before_install:
   - sudo apt-get install -qq cppcheck
 install:
   - pip install -r requirements.txt
+  - pip install -r requirements-slave.txt
+  - pip install -r requirements-master.txt
   - pip install coveralls
   - pip install flake8
 env:
