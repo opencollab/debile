@@ -234,6 +234,6 @@ def main():
         return _help()
 
     config = get_config("user.yaml")
-    proxy = get_proxy(config)
+    proxy = get_proxy(config, config.get('auth_method', 'ssl'))
 
     return run(proxy, *args)
