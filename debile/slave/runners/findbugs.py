@@ -24,10 +24,14 @@ from debile.slave.wrappers.findbugs import parse_findbugs
 from debile.slave.utils import cd
 from debile.utils.commands import run_command
 
+import os
+
 
 def findbugs(deb, analysis):
     run_command(["dpkg", "-x", deb, "binary"])
     with cd('binary'):
+        # Force english as findbugs is localized
+        os.putenv("LANG", "C")
         out, err, ret = run_command([
             'fb', 'analyze', '-effort:max', '-xml:withMessages', '.'
         ])
