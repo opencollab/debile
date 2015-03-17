@@ -50,7 +50,7 @@ def import_pgp(user, pgp_key, keyring):
 
         os.setuid(uid)
 
-    out, err, code = run_command(['gpg', '--import', '--status-fd', 1,
+    out, err, code = run_command(['gpg', '--batch', '--import', '--status-fd', '1',
                                   '--no-default-keyring', '--keyring',
                                   keyring], input=pgp_key)
     if code != 0:
