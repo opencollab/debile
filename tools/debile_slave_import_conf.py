@@ -14,14 +14,13 @@
 import os
 import sys
 import yaml
-import subprocess
 import tarfile
 from contextlib import contextmanager
 from argparse import ArgumentParser
 from pwd import getpwnam
 
-
 from debile.utils.commands import run_command
+
 
 @contextmanager
 def editconf(conf_dir):
@@ -33,10 +32,12 @@ def editconf(conf_dir):
     with open(where, 'w') as fd:
         yaml.dump(info, fd)
 
-def cg(tarfile):
+
+def cg(tf):
     def get(what):
-        return tarfile.extractfile(what).read().strip()
+        return tf.extractfile(what).read().strip()
     return get
+
 
 def import_pgp(user, pgp_key, keyring):
     current_uid = os.geteuid()
@@ -56,7 +57,8 @@ def import_pgp(user, pgp_key, keyring):
         print("Gpg import failed: {0}".format(code))
         sys.exit(1)
 
-def import_conf(user, conf_dir, tarfile, keyring, secret_keyring, auth_method):
+
+def import_conf(user, conf_dir, tarball, keyring, secret_keyring, auth_method):
     """
     Import the slave configuration from the tarball.
     :param str auth: authentication method (ssl or simple)
@@ -64,7 +66,7 @@ def import_conf(user, conf_dir, tarfile, keyring, secret_keyring, auth_method):
     :param str auth_method: authentication backend (ssl or simple)
 
     """
-    with tarfile.open(tarfile, "r:gz") as tf:
+    with tarfile.open(tarball, "r:gz") as tf:
         get = cg(tf)
         name = get("name")
         key = get("fingerprint")
@@ -105,10 +107,10 @@ if __name__ == "__main__":
     parser.add_argument("--auth", action="store", dest="auth_method", default='ssl',
                         help="Auth method: 'ssl' or 'simple' (ip-based)")
 
-    parser.add_argument("tarfile",
+    parser.add_argument("tarball",
                         help="path to the tarball containing the PGP keys")
 
     args = parser.parse_args()
 
-    import_conf(args.user, args.conf_dir, args.tarfile, args.keyring,
+    import_conf(args.user, args.conf_dir, args.tarball, args.keyring,
                 args.secret_keyring, args.auth_method)
