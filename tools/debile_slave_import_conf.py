@@ -56,7 +56,7 @@ def import_pgp(user, pgp_key, keyring):
         print("Gpg import failed: {0}".format(code))
         sys.exit(1)
 
-def import_conf(user, conf_dir, keyring, secret_keyring, auth_method):
+def import_conf(user, conf_dir, tarfile, keyring, secret_keyring, auth_method):
     """
     Import the slave configuration from the tarball.
     :param str auth: authentication method (ssl or simple)
@@ -64,7 +64,7 @@ def import_conf(user, conf_dir, keyring, secret_keyring, auth_method):
     :param str auth_method: authentication backend (ssl or simple)
 
     """
-    with tarfile.open(sys.argv[1], "r:gz") as tf:
+    with tarfile.open(tarfile, "r:gz") as tf:
         get = cg(tf)
         name = get("name")
         key = get("fingerprint")
@@ -105,7 +105,10 @@ if __name__ == "__main__":
     parser.add_argument("--auth", action="store", dest="auth_method", default='ssl',
                         help="Auth method: 'ssl' or 'simple' (ip-based)")
 
+    parser.add_argument("tarfile",
+                        help="path to the tarball containing the PGP keys")
+
     args = parser.parse_args()
 
-    import_conf(args.user, args.conf_dir, args.keyring,
+    import_conf(args.user, args.conf_dir, args.tarfile, args.keyring,
                 args.secret_keyring, args.auth_method)
