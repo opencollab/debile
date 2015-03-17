@@ -84,8 +84,8 @@ def import_conf(user, conf_dir, tarfile, keyring, secret_keyring, auth_method):
                 print("That last solution is best. See "
                       "https://github.com/opencollab/debile/issues/4")
 
-        import_pgp(user, get('keyring'), keyring)
-        import_pgp(user, get('secret-keyring'), secret_keyring)
+        import_pgp(user, get('key.pub'), keyring)
+        import_pgp(user, get('key.priv'), secret_keyring)
 
 
 if __name__ == "__main__":
