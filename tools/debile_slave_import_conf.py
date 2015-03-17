@@ -70,7 +70,6 @@ def import_conf(user, conf_dir, tarball, keyring, secret_keyring, auth_method):
         get = cg(tf)
         name = get("name")
         key = get("fingerprint")
-        kname = "%" + (name)
 
         with editconf(conf_dir) as config:
             config['gpg'] = key
