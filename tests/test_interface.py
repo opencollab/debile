@@ -43,6 +43,11 @@ class DebileInterfaceTestCase(unittest.TestCase):
         with open('tests/resources/blade01.pgp') as f:
             self.blade01_key = f.read()
 
+    def tearDown(self):
+        for f in ('tests/resources/keyring', 'tests/resources/secret-keyring'):
+            if os.path.exists(f):
+                os.remove(f)
+
     def test_create_builder(self):
         interface = DebileMasterInterface(pgp_keyring=u'tests/resources/keyring')
         NAMESPACE.session = self.session
