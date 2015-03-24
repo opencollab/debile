@@ -45,6 +45,13 @@ $ apt-get install python-nose
 
 $ nosetests
 
+Run flake8
+==========
+
+(see .travis.yaml)
+
+ $ flake8 debile/ --ignore E711,E241 --max-line-length=200
+
 Fedmsg Topics
 =============
 
