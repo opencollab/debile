@@ -21,7 +21,7 @@ up quickly and start hacking immediately, you can use
 Some *Dockerfile*s for *debile-master*, *debile-slave* and the required
 services are provided in contrib/clemux/docker. Both the *Dockerfile*s
 and documentation need more work, so don't hesitate to ask for help on
-#debile (irc.debian.org), or send an email to clement@mux.me and
+[#debile](irc://irc.debian.org/debile) (irc.debian.org), or send an email to clement@mux.me and
 sylvestre@debian.org.
 
 
