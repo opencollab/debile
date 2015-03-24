@@ -18,8 +18,6 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
-# !/bin/python
-
 from debile.slave.wrappers.roodi import parse_roodi
 from debile.slave.utils import cd
 from debile.utils.commands import run_command
