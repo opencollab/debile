@@ -38,6 +38,8 @@ For the tests:
 
 $ sudo -u postgres createdb -E UTF-8 -O debile debile_tests
 
+ $ export DATABASE_URI='postgres://debile:foobar@localhost:5432/debile_tests'
+
 Run tests
 =========
 
