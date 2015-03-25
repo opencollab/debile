@@ -4,7 +4,22 @@ Second warning: the Dockerfiles need improvement.
 
 Third warning: this documentation is not complete.
 
-/srv/debile is stored in a data-only container: debile-data
+/srv/debile is stored in a [data-only container](https://docs.docker.com/userguide/dockervolumes/#creating-and-mounting-a-data-volume-container): debile-data
+
+initial setup
+-------------
+
+Since you will build several images that will download the same packages, you can save time by using apt-cacher-ng.
+
+ $ sudo apt-get install apt-cacher-ng
+
+Then edit `/etc/apt-cacher-ng/backends_debian` to choose a mirror.
+
+The sources.list in debile-master's and debile-slave's Dockerfile is
+already setup to use apt-cacher.
+
+Otherwise, you'll need to edit the `sources.list` files to use the
+mirror of your choosing.
 
 debile-data
 -----------
@@ -14,6 +29,10 @@ for the master.  You can use this script:
 
  contrib/clemux/docker/debile-data $ ./debile-generate-master-pgp-keys
 
+(Note: on a VM or headless server, this might take a while because of
+a lack of entropy on the system. You might want to generate the keys
+on a desktop machine, or use
+[haveged](http://www.issihosts.com/haveged/).
 
 Then you can build the image:
 
@@ -27,7 +46,11 @@ container):
 debile-master
 -------------
 
-This needs ``debile-master_1.3.2_all.deb``, ``python-debile_1.3.2_all.deb`` and ``python-firewoes_0.2+mux_all.deb`` in the same directory as Dockerfile.
+This needs ``debile-master_1.3.2_all.deb``,
+``python-debile_1.3.2_all.deb`` and
+``python-firewoes_0.2+mux_all.deb`` in the same directory as
+Dockerfile. You can build them from the debile git repository, with
+`dpkg-buildpackage`.
 
 You can find ``python-firewoes_0.2+mux_all.deb`` here:
 http://www.mux.me/debile/python-firewoes_0.2+mux_all.deb
@@ -65,7 +88,7 @@ This requires ``debile-slave_1.3.2_all.deb`` and ``python-debile_1.3.2_all.deb``
 Create slave-keys.tar.gz:
 
  $ ./debile-generate-slave-keys
-
+h
 Then edit ``slave.yaml``, and put the right fingerprint into the
 ``gpg`` section.
 
