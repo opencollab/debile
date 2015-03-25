@@ -15,13 +15,23 @@ Since you will build several images that will download the same packages, you ca
 
  $ sudo apt-get install apt-cacher-ng
 
-Then edit `/etc/apt-cacher-ng/backends_debian` to choose a mirror.
-
 The sources.list in debile-master's and debile-slave's Dockerfile is
 already setup to use apt-cacher.
 
-Otherwise, you'll need to edit the `sources.list` files to use the
+Otherwise, you'll need to edit the ``sources.list`` files to use the
 mirror of your choosing.
+
+Docker runs as root, and the ``docker`` CLI program will need access
+ to docker's unix socket. If you don't want to run ``docker`` as root,
+ you can add your user to the group ``docker``:
+
+ $ sudo adduser <your user> docker
+
+For more information, `Giving non-root access`_ in docker's officiel documentation for
+Debian users.
+
+ .. _Giving non-root access:
+    https://docs.docker.com/installation/debian/#giving-non-root-access
 
 debile-data
 -----------
