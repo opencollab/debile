@@ -29,4 +29,4 @@ COPY slave-keys.tar.gz /tmp/
 
 RUN sh -c "tar xvf slave-keys.tar.gz -O | gpg --import --status-fd 1"
 
-CMD debile-slave --debug --simple-auth
+CMD debile-slave --debug --auth simple
