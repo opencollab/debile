@@ -6,7 +6,7 @@ Third warning: this documentation is not complete.
 
 /srv/debile is stored in a `data-only container`_: debile-data
 
- .. _data-only container: https://docs.docker.com/userguide/dockervolumes/#creating-and-mounting-a-data-volume-container>`
+ .. _data-only container: https://docs.docker.com/userguide/dockervolumes/#creating-and-mounting-a-data-volume-container
 
 initial setup
 -------------
@@ -35,7 +35,7 @@ for the master.  You can use this script:
 a lack of entropy on the system. You might want to generate the keys
 on a desktop machine, or use `haveged`_
 
-.. _haveged: http://www.issihosts.com/haveged/>
+.. _haveged: http://www.issihosts.com/haveged/
 
 Then you can build the image:
 
