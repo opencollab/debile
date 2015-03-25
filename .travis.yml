@@ -8,6 +8,7 @@ before_install:
   - pip install -e ../firewoes
   - sudo apt-get update
   - sudo apt-get install -qq cppcheck lintian
+  - gem install roodi
 install:
   - pip install -r requirements.txt
   - pip install -r requirements-slave.txt
