@@ -22,8 +22,8 @@ Otherwise, you'll need to edit the ``sources.list`` files to use the
 mirror of your choosing.
 
 Docker runs as root, and the ``docker`` CLI program will need access
- to docker's unix socket. If you don't want to run ``docker`` as root,
- you can add your user to the group ``docker``:
+to docker's unix socket. If you don't want to run ``docker`` as root,
+you can add your user to the group ``docker``:
 
  $ sudo adduser <your user> docker
 
