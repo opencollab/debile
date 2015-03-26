@@ -112,9 +112,9 @@ Running debile-master
 Creating the data volume container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This container will store /srv/debile. You only need to create it, and not run it:
+This container will store /srv/debile. It will exit immediately, but the data will live as long as you don't delete the container (docker rm debile-data).
 
- $ docker create --name debile-data -v /srv/debile clemux/debile-data
+ $ docker run --name debile-data -v /srv/debile clemux/debile-data
 
 
 Running postgresql-server (debile-pg)
