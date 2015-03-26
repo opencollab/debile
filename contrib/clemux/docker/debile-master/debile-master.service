@@ -6,8 +6,8 @@ After=docker.service
 Restart=always
 ExecStartPre=-/usr/bin/docker create \
       --name debile-master \
-      --volumes-from debile-data
-      --link debile-pg:debile-pg
+      --volumes-from debile-data \
+      --link debile-pg:debile-pg \
       clemux/debile-master
 
 ExecStart=/usr/bin/docker start -a debile-master
