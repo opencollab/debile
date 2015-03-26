@@ -57,6 +57,8 @@ Recommends:
  dput-ng,
 # for ruby checks
  roodi,
+# for pylint checker
+ pylint,
 Description: slave for the débile package builder system
  The débile client/server software is designed to help moderate to
  experienced Debian package builders set up their own build infastructure

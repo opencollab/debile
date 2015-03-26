@@ -1,5 +1,4 @@
-# Copyright (c) 2012-2013 Paul Tagliamonte <paultag@debian.org>
-# Copyright (c) 2013 Leo Cavaille <leo@cavaille.net>
+# Copyright (c) 2015 Lucas Kanashiro <kanashiro.duarte@gmail.com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -19,31 +18,12 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
-import importlib
+from debile.slave.runners.pylint import pylint, version
 
 
-PLUGINS = {
-    "build": "debile.slave.commands.build",
-    "clang": "debile.slave.commands.clang",
-    "clanganalyzer": "debile.slave.commands.clanganalyzer",
-
-    "pylint": "debile.slave.commands.pylint",
-    "pep8": "debile.slave.commands.pep8",
-    "perlcritic": "debile.slave.commands.perlcritic",
-    "cppcheck": "debile.slave.commands.cppcheck",
-    "coccinelle": "debile.slave.commands.coccinelle",
-
-    "lintian": "debile.slave.commands.lintian",
-    "lintian4py": "debile.slave.commands.lintian4py",
-
-    "adequate": "debile.slave.commands.adequate",
-    "piuparts": "debile.slave.commands.piuparts",
-    "desktop-file-validate": "debile.slave.commands.desktop_file_validate",
-    "honorcxx": "debile.slave.commands.honorcxx",
-}
+def run(dsc, package, job, firehose):
+    return pylint(dsc, firehose)
 
 
-def load_module(what):
-    path = PLUGINS[what]
-    mod = importlib.import_module(path)
-    return (mod.run, mod.get_version)
+def get_version():
+    return version()
