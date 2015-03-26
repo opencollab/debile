@@ -5,7 +5,7 @@ After=debile-data.service
 [Service]
 Restart=always
 # "-" prefix so that ExecStart is always run
-ExecStartPre=/usr/bin/docker create \
+ExecStartPre=-/usr/bin/docker create \
       --name debile-http \
       --volumes-from debile-data \
       -v /var/log/nginx/ \
