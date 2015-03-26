@@ -27,14 +27,17 @@ you can add your user to the group ``docker``:
 
  $ sudo adduser <your user> docker
 
-For more information, `Giving non-root access`_ in docker's officiel documentation for
-Debian users.
+For more information, `Giving non-root access`_ in docker's official
+documentation for Debian users.
 
  .. _Giving non-root access:
     https://docs.docker.com/installation/debian/#giving-non-root-access
 
+Building images
+---------------
+
 debile-data
------------
+~~~~~~~~~~~
 
 This needs a tarball ``master-keys.tar.gz`` containing the PGP keys
 for the master.  You can use this script:
@@ -51,13 +54,9 @@ Then you can build the image:
 
  contrib/clemux/docker/debile-data $ docker build -t clemux/debile-data .
 
-And create the container (no need to run it, as it is a data-only
-container):
-
- $ docker create --name debile-data -v /srv/debile clemux/debile-data
 
 debile-master
--------------
+~~~~~~~~~~~~~
 
 This needs ``debile-master_1.3.2_all.deb``,
 ``python-debile_1.3.2_all.deb`` and
@@ -77,31 +76,29 @@ Then you can build the image:
 
  contrib/clemux/docker/debile-master $ docker build -t clemux/debile-master .
 
-If you're using systemd, a unit file is provided: ``debile-master.service``
-
 debile-http
------------
+~~~~~~~~~~~
 
 This should be straightforward. Systemd unit file also provided.
 
  $ docker build -t clemux/debile-http .
 
 debile-pg
----------
+~~~~~~~~~
 
 Same here:
 
  $ docker build -t clemux/debile-pg .
 
 debile-slave
-------------
+~~~~~~~~~~~~
 
 This requires ``debile-slave_1.3.2_all.deb`` and ``python-debile_1.3.2_all.deb``.
 
 Create slave-keys.tar.gz:
 
  $ ./debile-generate-slave-keys
-h
+
 Then edit ``slave.yaml``, and put the right fingerprint into the
 ``gpg`` section.
 
@@ -109,3 +106,51 @@ Then edit ``slave.yaml``, and put the right fingerprint into the
 
 A systemd unit file is provided: ``debile-slave.service``.
 
+Running debile-master
+---------------------
+
+Creating the data volume container
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This container will store /srv/debile. You only need to create it, and not run it:
+
+ $ docker create --name debile-data -v /srv/debile clemux/debile-data
+
+
+Running postgresql-server (debile-pg)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+First you will need to run postgresql. If you're using systemd:
+
+ $ sudo cp debile-postgresql.service /etc/systemd/system/
+ 
+ $ sudo systemctl start debile-postgresql.service
+
+Otherwise:
+
+ $ docker run -d --name debile-pg -p 5432:5432 clemux/debile-pg
+
+Initializing debile-master
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Run a temporary container:
+
+ $ docker run -ti --rm --volumes-from debile-data --link debile-pg:debile-pg clemux/debile-master bash
+
+Inside the container's shell:
+
+ $ debile-master-init --config /etc/debile/master.yaml /etc/debile/debile.yaml
+
+
+Running nginx (debile-http)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+With systemd:
+
+ $ sudo cp nginx-debile.service /etc/systemd/system/
+
+ $ sudo systemctl start nginx-debile.service
+
+Otherwise:
+
+ $ docker run -d --name debile-http --volumes-from debile-data -v /var/log/nginx -p 80:80 clemux/debile-http
