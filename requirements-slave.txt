@@ -5,6 +5,7 @@ requests
 dput
 firehose
 schroot
+pylint
 
 # For cppcheck
 lxml
