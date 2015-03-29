@@ -6,6 +6,7 @@ dput
 firehose
 schroot
 pylint
+flake8
 
 # For cppcheck
 lxml

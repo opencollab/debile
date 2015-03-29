@@ -29,6 +29,7 @@ PLUGINS = {
 
     "pylint": "debile.slave.commands.pylint",
     "pep8": "debile.slave.commands.pep8",
+    "flake8": "debile.slave.commands.flake8",
     "perlcritic": "debile.slave.commands.perlcritic",
     "cppcheck": "debile.slave.commands.cppcheck",
     "coccinelle": "debile.slave.commands.coccinelle",
