@@ -50,6 +50,9 @@ on a desktop machine, or use `haveged`_
 
 .. _haveged: http://www.issihosts.com/haveged/
 
+You will need to edit reprepo-conf/distributions: change 'SignWith' to
+the id of the pgp key you generated.
+
 Then you can build the image:
 
  contrib/clemux/docker/debile-data $ docker build -t clemux/debile-data .
