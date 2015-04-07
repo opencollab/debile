@@ -50,8 +50,8 @@ def import_pgp(user, pgp_key, keyring):
 
         os.setuid(uid)
 
-    out, err, code = run_command(['gpg', '--batch', '--import', '--status-fd', '1',
-                                  '--no-default-keyring', '--keyring',
+    out, err, code = run_command(['gpg', '--batch', '--import', '--status-fd',
+                                  '1', '--no-default-keyring', '--keyring',
                                   keyring], input=pgp_key)
     if code != 0:
         print("Gpg import failed: {0}".format(code))
@@ -74,7 +74,7 @@ def import_conf(user, conf_dir, tarball, keyring, secret_keyring, auth_method):
         with editconf(conf_dir) as config:
             config['gpg'] = key
             r = config['xmlrpc']
-            if auth == 'ssl':
+            if auth_method == 'ssl':
                 r['keyfile'] = conf_dir + name + ".key"
                 r['certfile'] = conf_dir + name + ".crt"
                 print("WARNING: I haven't copied the x.509 key and certificate"
@@ -93,17 +93,20 @@ if __name__ == "__main__":
     parser = ArgumentParser(description="Debile slave configuration importer")
     parser.add_argument("--user", action="store", dest="debile_user",
                         help="User to run gpg --import as")
-    parser.add_argument("--conf-dir", action="store", dest="conf_dir", default="/etc/debile",
+    parser.add_argument("--conf-dir", action="store", dest="conf_dir",
+                        default="/etc/debile",
                         help="Debile configuration directory (default: /etc/debile)")
 
     parser.add_argument("--keyring", action="store", dest="keyring",
                         default="~/.gnupg/pubring.gpg",
                         help="GPG public keyring (default: ~/.gnupg/pubring.gpg)")
-    parser.add_argument("--secret-keyring", action="store", dest="secret_keyring",
+    parser.add_argument("--secret-keyring", action="store",
+                        dest="secret_keyring",
                         default="~/.gnupg/secring.gpg",
                         help="GPG secret keyring (default: ~/.gnupg/secring.gpg)")
 
-    parser.add_argument("--auth", action="store", dest="auth_method", default='ssl',
+    parser.add_argument("--auth", action="store", dest="auth_method",
+                        default='ssl',
                         help="Auth method: 'ssl' or 'simple' (ip-based)")
 
     parser.add_argument("tarball",
