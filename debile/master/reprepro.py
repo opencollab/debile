@@ -65,19 +65,19 @@ class Repo(object):
             raise
 
     def includedeb(self, distribution, deb):
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def includeudeb(self, distribution, udeb):
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def includedsc(self, distributions, dsc):
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def list(self, distribution, name):
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def clearvanished(self):
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def find_dsc(self, source):
         sources = "{root}/dists/{suite}/{component}/source/Sources.gz".format(

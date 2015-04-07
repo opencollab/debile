@@ -24,7 +24,7 @@ from debile.slave.config import Config
 
 
 def run(target, package, job, firehose):
-    raise NotImplemented("Not ported yet")
+    raise NotImplementedError("Not ported yet")
 
     config = Config()
     # Fix this single-deb horseshit, no?
