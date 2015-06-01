@@ -144,6 +144,15 @@ Inside the container's shell:
 
  $ debile-master-init --config /etc/debile/master.yaml /etc/debile/debile.yaml
 
+You can test whether it worked, or make manual modifications to the
+database:
+
+On the host (password 'debile'):
+
+ $ psql -h localhost -U debile -d debile -W
+
+ debile=# 
+
 
 Running nginx (debile-http)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
