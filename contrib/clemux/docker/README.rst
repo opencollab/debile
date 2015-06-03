@@ -127,7 +127,7 @@ First you will need to run postgresql. If you're using systemd:
 
  $ sudo cp debile-postgresql.service /etc/systemd/system/
  
- $ sudo systemctl start debile-postgresql.service
+ $ sudo systemctl start postgresql-debile.service
 
 Otherwise:
 
