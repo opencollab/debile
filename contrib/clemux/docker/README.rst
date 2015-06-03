@@ -125,7 +125,7 @@ Running postgresql-server (debile-pg)
 
 First you will need to run postgresql. If you're using systemd:
 
- $ sudo cp debile-postgresql.service /etc/systemd/system/
+ $ sudo cp postgresql-debile.service /etc/systemd/system/
  
  $ sudo systemctl start postgresql-debile.service
 
@@ -151,7 +151,20 @@ On the host (password 'debile'):
 
  $ psql -h localhost -U debile -d debile -W
 
- debile=# 
+ debile=#
+
+Running debile-master
+~~~~~~~~~~~~~~~~~~~~~
+
+With systemd:
+
+ $ sudo cp debile-master.service /etc/systemd/system/
+
+ $ systemctl start debile-master.service
+
+Otherwise:
+
+ $ docker run --name debile-master --volumes-from debile-data --link debile-pg:debile-pg clemux/debile-master
 
 
 Running nginx (debile-http)
@@ -166,3 +179,8 @@ With systemd:
 Otherwise:
 
  $ docker run -d --name debile-http --volumes-from debile-data -v /var/log/nginx -p 80:80 clemux/debile-http
+
+Running debile-slave
+--------------------
+
+ $ docker run --name debile-slave --link debile-master:debile-master --link debile-http:debile-http clemux/debile-slave
