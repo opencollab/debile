@@ -1,7 +1,11 @@
 # Run with nosetests tests/test_roodi.py:test_roodi
-from debile.slave.runners.roodi import roodi
+from debile.slave.runners.roodi import roodi, version
 from debile.slave.wrappers.roodi import parse_roodi
 from firehose.model import (Analysis, Generator, Metadata)
+
+
+def test_roodi_version():
+    version()
 
 
 def test_roodi_common():

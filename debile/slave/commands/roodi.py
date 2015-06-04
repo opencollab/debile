@@ -18,8 +18,12 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
-from debile.slave.runners.roodi import roodi
+from debile.slave.runners.roodi import roodi, version
 
 
 def run(dsc, package, job, firehose):
     return roodi(dsc, firehose)
+
+
+def get_version():
+    return version()

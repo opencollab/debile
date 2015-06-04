@@ -36,3 +36,11 @@ def roodi(dsc, analysis):
             analysis.results.append(issue)
 
         return (analysis, out, failed, None, None)
+
+
+def version():
+    out, err, ret = run_command(['roodi', '-v'])
+    if ret != 0:
+        raise Exception("roodi is not installed")
+    version = out
+    return ('roodi', version)
