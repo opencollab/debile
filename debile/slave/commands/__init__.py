@@ -27,6 +27,7 @@ PLUGINS = {
     "clang": "debile.slave.commands.clang",
     "clanganalyzer": "debile.slave.commands.clanganalyzer",
 
+    "jshint": "debile.slave.commands.jshint",
     "pylint": "debile.slave.commands.pylint",
     "pep8": "debile.slave.commands.pep8",
     "flake8": "debile.slave.commands.flake8",
