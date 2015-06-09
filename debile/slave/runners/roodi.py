@@ -26,11 +26,8 @@ from debile.utils.commands import run_command
 def roodi(dsc, analysis):
     run_command(["dpkg-source", "-x", dsc, "source-roodi"])
     with cd('source-roodi'):
-        out, err, ret = run_command([
-            'roodi', '.'
-        ])
-
-        failed = False
+        out, _, ret = run_command(['roodi', '.'])
+        failed = ret != 0
 
         for issue in parse_roodi(out.splitlines()):
             analysis.results.append(issue)
@@ -39,7 +36,7 @@ def roodi(dsc, analysis):
 
 
 def version():
-    out, err, ret = run_command(['roodi', '-v'])
+    out, _, ret = run_command(['roodi', '-v'])
     if ret != 0:
         raise Exception("roodi is not installed")
     version = out

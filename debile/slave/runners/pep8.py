@@ -27,7 +27,7 @@ from debile.utils.commands import run_command
 def pep8(dsc, analysis):
     run_command(["dpkg-source", "-x", dsc, "source-pep8"])
     with cd('source-pep8'):
-        out, err, ret = run_command(['pep8', '.'])
+        out, _, ret = run_command(['pep8', '.'])
         failed = ret != 0
 
         for issue in parse_pep8(out.splitlines()):
@@ -37,9 +37,7 @@ def pep8(dsc, analysis):
 
 
 def version():
-    out, err, ret = run_command([
-        'pep8', '--version'
-    ])
+    out, _, ret = run_command(['pep8', '--version'])
     if ret != 0:
         raise Exception("pep8 is not installed")
     return ('pep8', out.strip())

@@ -27,7 +27,7 @@ from debile.utils.commands import run_command
 def perlcritic(dsc, analysis):
     run_command(["dpkg-source", "-x", dsc, "source-perlcritic"])
     with cd('source-perlcritic'):
-        out, err, ret = run_command([
+        out, _, ret = run_command([
             'perlcritic', '--brutal', '.', '--verbose',
             '%f:%l:%c %s    %p    %m\n'
         ])
@@ -42,7 +42,7 @@ def perlcritic(dsc, analysis):
 
 
 def version():
-    out, err, ret = run_command(['perlcritic', '--version'])
+    out, _, ret = run_command(['perlcritic', '--version'])
     if ret != 0:
         raise Exception("perlcritic is not installed")
     return ('perlcritic', out.strip())

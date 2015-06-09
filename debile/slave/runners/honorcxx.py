@@ -46,7 +46,12 @@ def honorcxx(package, suite, arch, analysis):
         # Let's install the real compilers
         out, err, code = chroot.run(['apt-get', 'update'], user='root')
         out_, err, code = chroot.run([
-            'apt-get', '-y', '--no-install-recommends', 'install', 'gcc', 'cpp', 'g++'
+            'apt-get', '-y',
+            '--no-install-recommends',
+            'install',
+            'gcc',
+            'cpp',
+            'g++'
         ],
             user='root'
         )
@@ -123,7 +128,7 @@ def honorcxx(package, suite, arch, analysis):
             os.remove('/tmp/no-honor-cxx')
 
         # let's go
-        out_, err, ret = run_command([
+        out_, _, _ = run_command([
             'sbuild',
             '-A',
             '--use-schroot-session', chroot.session,

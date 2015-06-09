@@ -31,8 +31,13 @@ def lintian(targets, analysis, lintian_binary='lintian'):
     log = ""
     failed = False
     for target in targets:
-        out, err, ret = run_command([lintian_binary, "-IE", "--pedantic",
-                                     "--show-overrides", target])
+        out, _, _ = run_command([
+            lintian_binary,
+            "-IE",
+            "--pedantic",
+            "--show-overrides",
+            target
+        ])
         for issue in parse_lintian(out.splitlines(), target):
             analysis.results.append(issue)
             if issue.severity == 'error':
@@ -43,9 +48,7 @@ def lintian(targets, analysis, lintian_binary='lintian'):
 
 
 def version(lintian_binary='lintian'):
-    out, err, ret = run_command([
-        lintian_binary, '--version'
-    ])
+    out, _, ret = run_command([lintian_binary, '--version'])
     if ret != 0:
         raise Exception(lintian_binary + " is not installed")
     name, version = out.split(" ")
