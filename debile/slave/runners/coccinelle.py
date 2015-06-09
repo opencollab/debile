@@ -71,7 +71,7 @@ def coccinelle(dsc, analysis):
 
 
 def version():
-    out, err, ret = run_command(["spatch", "--version"])
+    out, _, ret = run_command(["spatch", "--version"])
     if ret != 0:
         raise Exception("spatch seems not to be installed")
     try:

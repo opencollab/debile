@@ -91,7 +91,7 @@ def clanganalyzer(package, suite, arch, analysis):
         out += out_
 
         # Now run sbuild in this session chroot for the package
-        out_, err, ret = run_command([
+        out_, _, _ = run_command([
             "sbuild",
             "-A",
             "--use-schroot-session", chroot.session,

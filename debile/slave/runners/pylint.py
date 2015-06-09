@@ -41,10 +41,11 @@ def pylint(dsc, analysis):
         output = ""
 
         for source in sources:
-            out, err, ret = run_command([
+            out, _, ret = run_command([
                 'pylint', '-rn',
                 '--msg-template="[{C}]{path}:{line},{column}:({msg_id})[{symbol}]{msg}"',
-                source])
+                source
+            ])
             failed = ret != 0
 
             if out is not None:
@@ -57,7 +58,7 @@ def pylint(dsc, analysis):
 
 
 def version():
-    out, err, ret = run_command(['pylint', '--version'])
+    out, _, ret = run_command(['pylint', '--version'])
     if ret != 0:
         raise Exception("pylint is not installed")
     name, version = out.splitlines()[0].strip(" ").split(" ")

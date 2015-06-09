@@ -61,7 +61,7 @@ def piuparts(chroot, target, analysis):
         failed = False
         try:
             print("[     ] Running Piuparts..")
-            out, err, ret = chroot.run([
+            out, err, _ = chroot.run([
                 'piuparts',
                 '-b', copy_location,
                 '/tmp/%s' % target,

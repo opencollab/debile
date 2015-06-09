@@ -27,7 +27,7 @@ from debile.utils.commands import run_command
 def cppcheck(dsc, analysis):
     run_command(["dpkg-source", "-x", dsc, "source-cppcheck"])
     with cd('source-cppcheck'):
-        out, err, ret = run_command([
+        _, err, _ = run_command([
             'cppcheck', '-j8', '--enable=all', '.', '--xml'
         ])
 
@@ -48,9 +48,7 @@ def cppcheck(dsc, analysis):
 
 
 def version():
-    out, err, ret = run_command([
-        'cppcheck', '--version'
-    ])
+    out, _, ret = run_command(['cppcheck', '--version'])
     if ret != 0:
         raise Exception("cppcheck is not installed")
     name, version = out.split(" ")

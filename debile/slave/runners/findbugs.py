@@ -32,7 +32,7 @@ def findbugs(deb, analysis):
     with cd('binary'):
         # Force english as findbugs is localized
         os.putenv("LANG", "C")
-        out, err, ret = run_command([
+        out, err, _ = run_command([
             'fb', 'analyze', '-effort:max', '-xml:withMessages', '.'
         ])
 
@@ -53,9 +53,7 @@ def findbugs(deb, analysis):
 
 
 def version():
-    out, err, ret = run_command([
-        'fb', '-version'
-    ])
+    out, _, ret = run_command(['fb', '-version'])
     if ret != 0:
         raise Exception("findbugs is not installed")
     name, version = out.split(" ")

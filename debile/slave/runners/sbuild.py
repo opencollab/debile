@@ -75,7 +75,7 @@ def parse_sbuild_log(log, sut):
 
 
 def ensure_chroot_sanity(chroot_name):
-    out, ret, err = run_command(['schroot', '-l'])
+    out, _, _ = run_command(['schroot', '-l'])
     for chroot in out.splitlines():
         chroot = chroot.strip()
         chroots = [
@@ -113,7 +113,7 @@ def sbuild(package, maintainer, suite, affinity, build_arch, build_indep, analys
 
     sbuild_cmd += [package]
 
-    out, err, ret = run_command(sbuild_cmd)
+    out, _, ret = run_command(sbuild_cmd)
 
     summary = False
     status = None
@@ -153,9 +153,7 @@ def sbuild(package, maintainer, suite, affinity, build_arch, build_indep, analys
 
 
 def version():
-    out, err, ret = run_command([
-        "sbuild", '--version'
-    ])
+    out, _, ret = run_command(["sbuild", '--version'])
     if ret != 0:
         raise Exception("sbuild is not installed")
     vline = out.splitlines()[0]
