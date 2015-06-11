@@ -1,2 +1,3 @@
 eg/etc/debile/user.yaml                  etc/debile/
 contrib/debian/debile-generate-slave-keys    usr/share/python-debile/
+contrib/debian/debile-generate-pgp-keys-no-ssl    usr/share/python-debile/
