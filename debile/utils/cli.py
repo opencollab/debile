@@ -234,6 +234,11 @@ def main():
         return _help()
 
     config = get_config("user.yaml")
-    proxy = get_proxy(config, config.get('auth_method', 'ssl'))
+    xml = config.get('xmlrpc')
+    auth_method = 'ssl'
+    if xml is not None:
+        auth_method = xml.get('auth_method', 'ssl')
+
+    proxy = get_proxy(config, auth_method)
 
     return run(proxy, *args)
