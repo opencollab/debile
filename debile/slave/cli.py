@@ -1,4 +1,5 @@
 # Copyright (c) 2012-2013 Paul Tagliamonte <paultag@debian.org>
+# Copyright (c) 2015      Lucas Kanashiro <kanashiro.duarte@gmail.com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -19,11 +20,12 @@
 # DEALINGS IN THE SOFTWARE.
 
 
+import sys
 from debile.utils.config import get_config
-from debile.utils.xmlrpc import get_proxy
+from debile.utils.xmlrpc import get_proxy, get_auth_method
 
 
-def daemon():
+def parse_args(args):
     from argparse import ArgumentParser
     parser = ArgumentParser(description="Debile build slave")
     parser.add_argument("--config", action="store", dest="config", default=None,
@@ -36,9 +38,15 @@ def daemon():
                         default='ssl',
                         help="Authentication method ('ssl' or 'simple')")
 
-    args = parser.parse_args()
+    return parser.parse_args(args)
+
+
+def daemon():
+    args = parse_args(sys.argv[1:])
     config = get_config("slave.yaml", path=args.config)
-    proxy = get_proxy(config, args.auth_method)
+
+    auth_method = get_auth_method(args, config)
+    proxy = get_proxy(config, auth_method)
 
     from debile.slave.daemon import main
     main(args, config, proxy)
