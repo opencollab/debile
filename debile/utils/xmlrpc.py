@@ -1,6 +1,7 @@
 # Copyright (c) 2012-2014 Paul Tagliamonte <paultag@debian.org>
 # Copyright (c) 2014      Jon Severinsson <jon@severinsson.net>
 # Copyright (c) 2015      Clement Schreiner <clement@mux.me>
+# Copyright (c) 2015      Lucas Kanashiro <kanashiro.duarte@gmail.com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -141,3 +142,13 @@ def get_proxy(config, auth_method):
                 ca_certs=xml.get('ca_certs', "/etc/ssl/certs/ca-certificates.crt")
             ), allow_none=True)
     return proxy
+
+
+def get_auth_method(args, config):
+    auth_method = args.auth_method
+
+    if 'xmlrpc' in config:
+        if 'auth_method' in config['xmlrpc']:
+            auth_method = config['xmlrpc']['auth_method']
+
+    return auth_method

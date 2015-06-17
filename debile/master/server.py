@@ -2,6 +2,7 @@
 # Copyright (c) 2013      Leo Cavaille <leo@cavaille.net>
 # Copyright (c) 2014      Jon Severinsson <jon@severinsson.net>
 # Copyright (c) 2014-2015 Clement Schreiner <clement@mux.me>
+# Copyright (c) 2015      Lucas Kanashiro <kanashiro.duarte@gmail.com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -25,6 +26,7 @@ from SimpleXMLRPCServer import SimpleXMLRPCServer
 from SimpleXMLRPCServer import SimpleXMLRPCRequestHandler
 from sqlalchemy.sql import exists
 
+from debile.utils.xmlrpc import get_auth_method
 from debile.utils.log import start_logging
 from debile.master.utils import session
 from debile.master.orm import Person, Builder, Job
@@ -215,7 +217,9 @@ def main(args, config):
     if not os.path.isfile(config['keyrings']['pgp']):
         logger.info("Can not find pgp keyring `{file}'".format(file=config['keyrings']['pgp']))
 
-    if args.auth_method == 'ssl':
+    auth_method = get_auth_method(args, config)
+
+    if auth_method == 'ssl':
         if not os.path.isfile(config['xmlrpc']['keyfile']):
             logger.error("Can not find ssl keyfile `{file}'".format(file=config['xmlrpc']['keyfile']))
         if not os.path.isfile(config['xmlrpc']['certfile']):
@@ -224,7 +228,7 @@ def main(args, config):
             logger.error("Can not find ssl keyring `{file}'".format(file=config['keyrings']['ssl']))
 
     serve(config['xmlrpc']['addr'], config['xmlrpc']['port'],
-          args.auth_method,
+          auth_method,
           config['xmlrpc'].get('keyfile'),
           config['xmlrpc'].get('certfile'),
           config['keyrings'].get('ssl'),
