@@ -2,6 +2,7 @@
 #
 # Copyright (c) Paul R. Tagliamonte <paultag@debian.org>, 2014
 # Copyright (c) Clement Schreiner   <clement@mux.me>, 2015
+# Copyright (c) Lucas Kanashiro   <kanashiro.duarte@gmail.com>, 2015
 # under the terms and conditions of the Debile project, MIT/Expat. You
 # should have recieved a copy of the license with this script.
 #
@@ -20,6 +21,7 @@ from argparse import ArgumentParser
 from pwd import getpwnam
 
 from debile.utils.commands import run_command
+from debile.utils.exceptions import WrongUserException, GpgImportException
 
 
 @contextmanager
@@ -33,29 +35,59 @@ def editconf(conf_dir):
         yaml.dump(info, fd)
 
 
-def cg(tf):
-    def get(what):
-        return tf.extractfile(what).read().strip()
-    return get
+def get_attribute_from_tarfile(attribute, tarfile):
+    return tarfile.extractfile(attribute).read().strip()
 
 
-def import_pgp(user, pgp_key, keyring):
+def ensure_uid(user):
     current_uid = os.geteuid()
     uid = getpwnam(user).pw_uid
     if current_uid != uid:
         if os.geteuid() != 0:
             print("Error: I'm neither {0} nor root.".format(user))
             print("Please re-run either as root or {0}".format(user))
-            sys.exit(1)
+            raise WrongUserException
 
         os.setuid(uid)
 
+
+def import_pgp(user, pgp_key, key_type, keyring):
+    ensure_uid(user)
+
+    if key_type == 'public':
+        keyring_type = '--keyring'
+    elif key_type == 'secret':
+        keyring_type = '--secret-keyring'
+    else:
+        print("You must specify the type of imported key.")
+        raise GpgImportException
+
     out, err, code = run_command(['gpg', '--batch', '--import', '--status-fd',
-                                  '1', '--no-default-keyring', '--keyring',
+                                  '1', '--no-default-keyring', keyring_type,
                                   keyring], input=pgp_key)
+
     if code != 0:
-        print("Gpg import failed: {0}".format(code))
-        sys.exit(1)
+        print("GPG import failed: {0}".format(code))
+        raise GpgImportException
+
+
+def write_conf(conf_dir, name, key, auth_method):
+    with editconf(conf_dir) as config:
+        config['gpg'] = key
+
+        if auth_method == 'ssl':
+            if 'xmlrpc' in config:
+                xmlrpc = config['xmlrpc']
+                xmlrpc['keyfile'] = conf_dir + name + '.key'
+                xmlrpc['certfile'] = conf_dir + name + '.crt'
+                print("WARNING: I haven't copied the x.509 key and certificate"
+                        "to {0} and {1}".format(xmlrpc['keyfile'], \
+                                xmlrpc['certfile']))
+                print("Please copy those files manually, "
+                        "run `debile-slave-import-cred`, "
+                        "or patch this script to handle those two files")
+                print("That last solution is best. See "
+                        "https://github.com/opencollab/debile/issues/4")
 
 
 def import_conf(user, conf_dir, tarball, keyring, secret_keyring, auth_method):
@@ -67,29 +99,18 @@ def import_conf(user, conf_dir, tarball, keyring, secret_keyring, auth_method):
 
     """
     with tarfile.open(tarball, "r:gz") as tf:
-        get = cg(tf)
-        name = get("name")
-        key = get("fingerprint")
+        name = get_attribute_from_tarfile("name", tf)
+        key = get_attribute_from_tarfile("fingerprint", tf)
 
-        with editconf(conf_dir) as config:
-            config['gpg'] = key
-            r = config['xmlrpc']
-            if auth_method == 'ssl':
-                r['keyfile'] = conf_dir + name + ".key"
-                r['certfile'] = conf_dir + name + ".crt"
-                print("WARNING: I haven't copied the x.509 key and certificate"
-                      "to {0} and {1}".format(r['keyfile'], r['certfile']))
-                print("Please copy those files manually, "
-                      "run `debile-slave-import-cred`, "
-                      "or patch this script to handle those two files")
-                print("That last solution is best. See "
-                      "https://github.com/opencollab/debile/issues/4")
+        write_conf(conf_dir, name, key, auth_method)
 
-        import_pgp(user, get('key.pub'), keyring)
-        import_pgp(user, get('key.priv'), secret_keyring)
+        import_pgp(user, get_attribute_from_tarfile('key.pub', tf),
+                'public', keyring)
+        import_pgp(user, get_attribute_from_tarfile('key.priv', tf),
+                'secret', secret_keyring)
 
 
-if __name__ == "__main__":
+def parse_args(args):
     parser = ArgumentParser(description="Debile slave configuration importer")
     parser.add_argument("--user", action="store", dest="debile_user",
                         help="User to run gpg --import as")
@@ -112,7 +133,17 @@ if __name__ == "__main__":
     parser.add_argument("tarball",
                         help="path to the tarball containing the PGP keys")
 
-    args = parser.parse_args()
+    return parser.parse_args(args)
 
-    import_conf(args.user, args.conf_dir, args.tarball, args.keyring,
-                args.secret_keyring, args.auth_method)
+
+if __name__ == "__main__":
+    args = parse_args(sys.argv[1:])
+
+    try:
+        import_conf(args.user, args.conf_dir, args.tarball, args.keyring,
+                    args.secret_keyring, args.auth_method)
+    except WrongUserException:
+        print("Cannot set correct uid in the system.")
+    except GpgImportException:
+        print("Cannot import GPG key. Verify if exists GPG binary "
+                "in your system or any trouble with your key")
