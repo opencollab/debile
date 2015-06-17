@@ -33,3 +33,11 @@ script:
  - flake8 debile/ --ignore E711,E241 --max-line-length=200
 after_success:
  - coveralls
+
+notifications:
+  irc:
+    channels:
+      - "irc.debian.org#debile"
+    on_success: change
+    on_failure: always
+    skip_join: true
