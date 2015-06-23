@@ -42,4 +42,4 @@ notifications:
     on_failure: always
     skip_join: true
     template:
-      - "%{repository}#%{build_number} (%{branch} - %{commit} - %{author} (diff: %{compare_url}): %{build_url}"
+      - "%{result}: %{repository}#%{build_number} (%{branch} - %{commit}: %{build_url}"
