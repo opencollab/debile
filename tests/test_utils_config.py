@@ -29,7 +29,7 @@ class ConfigTestCase(unittest.TestCase):
     def test_find_config_file_that_exists(self):
         found_file = config_utils._find_config_file('config.yaml')
 
-        assert found_file == self.config
+        self.assertEqual(found_file, self.config)
 
 
     def test_find_config_file_that_not_exists(self):
@@ -39,10 +39,10 @@ class ConfigTestCase(unittest.TestCase):
     def test_get_config(self):
         file_content = config_utils.get_config('config.yaml')
 
-        assert file_content['A'] == 'a'
+        self.assertEqual(file_content['A'], 'a')
 
 
     def test_get_config_passing_path(self):
         file_content = config_utils.get_config('config.yaml', self.config)
 
-        assert file_content['A'] == 'a'
+        self.assertEqual(file_content['A'], 'a')

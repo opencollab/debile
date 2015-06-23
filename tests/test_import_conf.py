@@ -9,7 +9,7 @@ import tarfile
 import yaml
 
 
-class SlaveImportConfTest(unittest.TestCase):
+class SlaveImportConfTestCase(unittest.TestCase):
     key = 'D6B08791B954F001A7641F8E5564626D79CAB8E8'
     name = 'blade01'
     user = pwd.getpwuid(os.geteuid()).pw_name
@@ -50,12 +50,12 @@ class SlaveImportConfTest(unittest.TestCase):
     def test_parse_args_with_only_tarball(self):
         args = import_conf.parse_args(['tarball.tar.gz'])
 
-        assert args.debile_user == None
-        assert args.conf_dir == '/etc/debile'
-        assert args.keyring == '~/.gnupg/pubring.gpg'
-        assert args.secret_keyring == '~/.gnupg/secring.gpg'
-        assert args.auth_method == 'ssl'
-        assert args.tarball == 'tarball.tar.gz'
+        self.assertIsNone(args.debile_user)
+        self.assertEqual(args.conf_dir, '/etc/debile')
+        self.assertEqual(args.keyring, '~/.gnupg/pubring.gpg')
+        self.assertEqual(args.secret_keyring, '~/.gnupg/secring.gpg')
+        self.assertEqual(args.auth_method, 'ssl')
+        self.assertEqual(args.tarball, 'tarball.tar.gz')
 
 
     def test_parse_args_with_all_args(self):
@@ -63,12 +63,12 @@ class SlaveImportConfTest(unittest.TestCase):
             '~/debile', '--keyring', '~/keyring.gpg', '--secret-keyring',
             '~/secret.gpg', '--auth', 'simple', '--user', 'john'])
 
-        assert args.debile_user == 'john'
-        assert args.conf_dir == '~/debile'
-        assert args.keyring == '~/keyring.gpg'
-        assert args.secret_keyring == '~/secret.gpg'
-        assert args.auth_method == 'simple'
-        assert args.tarball == 'tarball.tar.gz'
+        self.assertEqual(args.debile_user, 'john')
+        self.assertEqual(args.conf_dir, '~/debile')
+        self.assertEqual(args.keyring, '~/keyring.gpg')
+        self.assertEqual(args.secret_keyring, '~/secret.gpg')
+        self.assertEqual(args.auth_method, 'simple')
+        self.assertEqual(args.tarball, 'tarball.tar.gz')
 
 
     def test_get_attribute_from_tarfile(self):
@@ -76,8 +76,8 @@ class SlaveImportConfTest(unittest.TestCase):
             fingerprint=import_conf.get_attribute_from_tarfile('fingerprint',tf)
             name_tar = import_conf.get_attribute_from_tarfile('name', tf)
 
-        assert fingerprint == self.key
-        assert name_tar == self.name
+        self.assertEqual(fingerprint, self.key)
+        self.assertEqual(name_tar, self.name)
 
 
     def test_editconf(self):
@@ -91,9 +91,9 @@ class SlaveImportConfTest(unittest.TestCase):
 
         out = self.load_yaml()
 
-        assert out['A'] == 'b'
-        assert out['B'] == 'a'
-        assert out['C'] == 'c'
+        self.assertEqual(out['A'], 'b')
+        self.assertEqual(out['B'], 'a')
+        self.assertEqual(out['C'], 'c')
 
 
     def test_write_conf_simple_auth(self):
@@ -104,7 +104,7 @@ class SlaveImportConfTest(unittest.TestCase):
 
         out = self.load_yaml()
 
-        assert out['gpg'] == self.key
+        self.assertEqual(out['gpg'], self.key)
 
 
     def test_write_conf_ssl_auth(self):
@@ -115,9 +115,9 @@ class SlaveImportConfTest(unittest.TestCase):
 
         out = self.load_yaml()
 
-        assert out['gpg'] == self.key
-        assert out['xmlrpc']['keyfile'] == '/tmp/blade01.key'
-        assert out['xmlrpc']['certfile'] == '/tmp/blade01.crt'
+        self.assertEqual(out['gpg'], self.key)
+        self.assertEqual(out['xmlrpc']['keyfile'], '/tmp/blade01.key')
+        self.assertEqual(out['xmlrpc']['certfile'], '/tmp/blade01.crt')
 
 
     def test_import_pgp_public_key(self):
@@ -128,7 +128,7 @@ class SlaveImportConfTest(unittest.TestCase):
 
         out,_,_ = run_command(['gpg', '--list-keys', '--keyring', self.keyring])
 
-        assert 'Debile Autobuilder (Debile Slave Key (blade01))' in out
+        self.assertTrue('Debile Autobuilder (Debile Slave Key (blade01))' in out)
 
 
     def test_import_pgp_secret_key(self):
@@ -141,7 +141,7 @@ class SlaveImportConfTest(unittest.TestCase):
         out,_,_ = run_command(['gpg', '--list-keys', '--keyring',
             self.secret_keyring])
 
-        assert 'Debile Autobuilder (Debile Slave Key (blade01))' in out
+        self.assertTrue('Debile Autobuilder (Debile Slave Key (blade01))' in out)
 
 
     def test_import_pgp_with_wrong_key_file_format(self):
@@ -168,15 +168,17 @@ class SlaveImportConfTest(unittest.TestCase):
 
         out = self.load_yaml()
 
-        assert out['gpg'] == self.key
+        self.assertEqual(out['gpg'], self.key)
 
         public_out,_,_ = run_command(['gpg', '--list-keys', '--keyring',
             self.keyring])
         secret_out,_,_ = run_command(['gpg', '--list-keys', '--keyring',
             self.secret_keyring])
 
-        assert 'Debile Autobuilder (Debile Slave Key (blade01))' in public_out
-        assert 'Debile Autobuilder (Debile Slave Key (blade01))' in secret_out
+        self.assertTrue('Debile Autobuilder (Debile Slave Key (blade01))' in
+                public_out)
+        self.assertTrue('Debile Autobuilder (Debile Slave Key (blade01))' in
+                secret_out)
 
 
     def test_import_conf_ssl_auth(self):
@@ -192,14 +194,16 @@ class SlaveImportConfTest(unittest.TestCase):
 
         out = self.load_yaml()
 
-        assert out['gpg'] == self.key
-        assert out['xmlrpc']['keyfile'] == '/tmp/blade01.key'
-        assert out['xmlrpc']['certfile'] == '/tmp/blade01.crt'
+        self.assertEqual(out['gpg'], self.key)
+        self.assertEqual(out['xmlrpc']['keyfile'], '/tmp/blade01.key')
+        self.assertEqual(out['xmlrpc']['certfile'], '/tmp/blade01.crt')
 
         public_out,_,_ = run_command(['gpg', '--list-keys', '--keyring',
             self.keyring])
         secret_out,_,_ = run_command(['gpg', '--list-keys', '--keyring',
             self.secret_keyring])
 
-        assert 'Debile Autobuilder (Debile Slave Key (blade01))' in public_out
-        assert 'Debile Autobuilder (Debile Slave Key (blade01))' in secret_out
+        self.assertTrue('Debile Autobuilder (Debile Slave Key (blade01))' in
+                public_out)
+        self.assertTrue('Debile Autobuilder (Debile Slave Key (blade01))' in
+                secret_out)

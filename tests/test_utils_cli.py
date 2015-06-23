@@ -12,7 +12,7 @@ class CliTestCase(unittest.TestCase):
 
         auth_method = get_auth_method(args, config)
 
-        assert auth_method == 'ssl'
+        self.assertEqual(auth_method, 'ssl')
 
 
     def test_get_auth_method_without_cli_option_but_with_yaml_config(self):
@@ -22,7 +22,7 @@ class CliTestCase(unittest.TestCase):
 
         auth_method = get_auth_method(args, config)
 
-        assert auth_method == 'simple'
+        self.assertEqual(auth_method, 'simple')
 
 
     def test_get_auth_method_with_cli_option_and_without_yaml_config(self):
@@ -31,4 +31,4 @@ class CliTestCase(unittest.TestCase):
 
         auth_method = get_auth_method(args, config)
 
-        assert auth_method == 'simple'
+        self.assertEqual(auth_method, 'simple')
