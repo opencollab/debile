@@ -75,11 +75,12 @@ def write_conf(conf_dir, name, key, auth_method):
     with editconf(conf_dir) as config:
         config['gpg'] = key
 
-        if auth_method == 'ssl':
-            if 'xmlrpc' in config:
-                xmlrpc = config['xmlrpc']
+        if 'xmlrpc' in config:
+            xmlrpc = config['xmlrpc']
+            if auth_method == 'ssl':
                 xmlrpc['keyfile'] = conf_dir + name + '.key'
                 xmlrpc['certfile'] = conf_dir + name + '.crt'
+                xmlrpc['auth_method'] = 'ssl'
                 print("WARNING: I haven't copied the x.509 key and certificate"
                         "to {0} and {1}".format(xmlrpc['keyfile'], \
                                 xmlrpc['certfile']))
@@ -88,6 +89,8 @@ def write_conf(conf_dir, name, key, auth_method):
                         "or patch this script to handle those two files")
                 print("That last solution is best. See "
                         "https://github.com/opencollab/debile/issues/4")
+            elif auth_method == 'simple':
+                xmlrpc['auth_method'] = 'simple'
 
 
 def import_conf(user, conf_dir, tarball, keyring, secret_keyring, auth_method):
