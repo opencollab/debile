@@ -82,13 +82,13 @@ def write_conf(conf_dir, name, key, auth_method):
                 xmlrpc['certfile'] = conf_dir + name + '.crt'
                 xmlrpc['auth_method'] = 'ssl'
                 print("WARNING: I haven't copied the x.509 key and certificate"
-                        "to {0} and {1}".format(xmlrpc['keyfile'], \
-                                xmlrpc['certfile']))
+                      "to {0} and {1}".format(xmlrpc['keyfile'],
+                                              xmlrpc['certfile']))
                 print("Please copy those files manually, "
-                        "run `debile-slave-import-cred`, "
-                        "or patch this script to handle those two files")
+                      "run `debile-slave-import-cred`, "
+                      "or patch this script to handle those two files")
                 print("That last solution is best. See "
-                        "https://github.com/opencollab/debile/issues/4")
+                      "https://github.com/opencollab/debile/issues/4")
             elif auth_method == 'simple':
                 xmlrpc['auth_method'] = 'simple'
 
@@ -108,9 +108,9 @@ def import_conf(user, conf_dir, tarball, keyring, secret_keyring, auth_method):
         write_conf(conf_dir, name, key, auth_method)
 
         import_pgp(user, get_attribute_from_tarfile('key.pub', tf),
-                'public', keyring)
+                   'public', keyring)
         import_pgp(user, get_attribute_from_tarfile('key.priv', tf),
-                'secret', secret_keyring)
+                   'secret', secret_keyring)
 
 
 def parse_args(args):
@@ -149,4 +149,4 @@ if __name__ == "__main__":
         print("Cannot set correct uid in the system.")
     except GpgImportException:
         print("Cannot import GPG key. Verify if exists GPG binary "
-                "in your system or any trouble with your key")
+              "in your system or any trouble with your key")
