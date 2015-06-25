@@ -105,6 +105,7 @@ class SlaveImportConfTestCase(unittest.TestCase):
         out = self.load_yaml()
 
         self.assertEqual(out['gpg'], self.key)
+        self.assertEqual(out['xmlrpc']['auth_method'], 'simple')
 
 
     def test_write_conf_ssl_auth(self):
@@ -118,6 +119,7 @@ class SlaveImportConfTestCase(unittest.TestCase):
         self.assertEqual(out['gpg'], self.key)
         self.assertEqual(out['xmlrpc']['keyfile'], '/tmp/blade01.key')
         self.assertEqual(out['xmlrpc']['certfile'], '/tmp/blade01.crt')
+        self.assertEqual(out['xmlrpc']['auth_method'], 'ssl')
 
 
     def test_import_pgp_public_key(self):
