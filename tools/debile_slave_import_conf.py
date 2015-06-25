@@ -143,8 +143,8 @@ if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
 
     try:
-        import_conf(args.user, args.conf_dir, args.tarball, args.keyring,
-                    args.secret_keyring, args.auth_method)
+        import_conf(args.debile_user, args.conf_dir, args.tarball,
+                    args.keyring, args.secret_keyring, args.auth_method)
     except WrongUserException:
         print("Cannot set correct uid in the system.")
     except GpgImportException:
