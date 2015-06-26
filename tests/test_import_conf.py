@@ -51,7 +51,7 @@ class SlaveImportConfTestCase(unittest.TestCase):
         args = import_conf.parse_args(['tarball.tar.gz'])
 
         self.assertIsNone(args.debile_user)
-        self.assertEqual(args.conf_dir, '/etc/debile')
+        self.assertEqual(args.conf_dir, '/etc/debile/')
         self.assertEqual(args.keyring, '~/.gnupg/pubring.gpg')
         self.assertEqual(args.secret_keyring, '~/.gnupg/secring.gpg')
         self.assertEqual(args.auth_method, 'ssl')

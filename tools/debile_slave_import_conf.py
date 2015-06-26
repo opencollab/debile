@@ -118,8 +118,8 @@ def parse_args(args):
     parser.add_argument("--user", action="store", dest="debile_user",
                         help="User to run gpg --import as")
     parser.add_argument("--conf-dir", action="store", dest="conf_dir",
-                        default="/etc/debile",
-                        help="Debile configuration directory (default: /etc/debile)")
+                        default="/etc/debile/",
+                        help="Debile configuration directory (default: /etc/debile/)")
 
     parser.add_argument("--keyring", action="store", dest="keyring",
                         default="~/.gnupg/pubring.gpg",
