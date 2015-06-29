@@ -1,5 +1,6 @@
 # Copyright (c) 2012-2013 Paul Tagliamonte <paultag@debian.org>
 # Copyright (c) 2014      Jon Severinsson <jon@severinsson.net>
+# Copyright (c) 2015      Lucas Kanashiro <kanashiro.duarte@gmail.com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -115,7 +116,23 @@ def _create_user(proxy, name, email, pgp, ssl):
         print("   %s when trying to open %s" % (str(e), ssl))
         raise
 
-    print(proxy.create_user(name, email, pgp, ssl))
+    print(proxy.create_user(name, email, pgp, ssl, None))
+
+
+def _create_user_ip(proxy, name, email, pgp, ip):
+    """
+    Create a user with simple authentication:
+        debile-remote create-user-ip <name> <email> <pgp-key> <ip-address>
+    """
+
+    try:
+        pgp = open(pgp, 'r').read()
+    except IOError as e:
+        print("Error whilst opening OpenPGP public key.")
+        print("   %s when trying to open %s" % (str(e), pgp))
+        raise
+
+    print(proxy.create_user(name, email, pgp, None, ip))
 
 
 def _update_user_keys(proxy, email, pgp, ssl):
@@ -213,6 +230,7 @@ COMMANDS = {
     "update-slave-keys": _update_slave_keys,
     "disable-slave": _disable_slave,
     "create-user": _create_user,
+    "create-user-ip": _create_user_ip,
     "update-user-keys": _update_user_keys,
     "disable-user": _disable_user,
     "rerun-job": _rerun_job,

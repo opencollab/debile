@@ -1,5 +1,6 @@
 # Copyright (c) 2012-2013 Paul Tagliamonte <paultag@debian.org>
 # Copyright (c) 2014-2015 Clement Schreiner <clement@mux.me>
+# Copyright (c) 2015      Lucas Kanashiro <kanashiro.duarte@gmail.com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -241,17 +242,16 @@ class DebileMasterInterface(object):
         return builder.debilize()
 
     @user_method
-    def create_user(self, name, email, pgp, ssl):
-        if self.ssl_keyring is None:
-            # TODO
-            raise Exception
+    def create_user(self, name, email, pgp, ssl=None, ip=None):
         if NAMESPACE.session.query(Person).filter_by(email=email).first():
             raise ValueError("User already exists.")
 
         pgp = import_pgp(self.pgp_keyring, pgp)
-        ssl = import_ssl(self.ssl_keyring, ssl, name, email)
 
-        p = Person(name=name, email=email, pgp=pgp, ssl=ssl)
+        if ssl is not None:
+            ssl = import_ssl(self.ssl_keyring, ssl, name, email)
+
+        p = Person(name=name, email=email, pgp=pgp, ssl=ssl, ip=ip)
         NAMESPACE.session.add(p)
 
         emit('create', 'user', p.debilize())
