@@ -16,6 +16,7 @@ class SlaveImportConfTestCase(unittest.TestCase):
     keyring = '/home/{0}/.gnupg/debile.gpg'.format(user)
     secret_keyring = '/home/{0}/.gnupg/debile_secret.gpg'.format(user)
     slave_config = '/tmp/slave.yaml'
+    gpg_home = '/home/{0}/.gnupg/'.format(user)
 
 
     @classmethod
@@ -56,12 +57,14 @@ class SlaveImportConfTestCase(unittest.TestCase):
         self.assertEqual(args.secret_keyring, '~/.gnupg/secring.gpg')
         self.assertEqual(args.auth_method, 'ssl')
         self.assertEqual(args.tarball, 'tarball.tar.gz')
+        self.assertEqual(args.gpg_home_dir, '~/.gnupg/')
 
 
     def test_parse_args_with_all_args(self):
         args = import_conf.parse_args(['tarball.tar.gz', '--conf-dir',
             '~/debile', '--keyring', '~/keyring.gpg', '--secret-keyring',
-            '~/secret.gpg', '--auth', 'simple', '--user', 'john'])
+            '~/secret.gpg', '--auth', 'simple', '--user', 'john', '--gpg-home',
+            '~/'])
 
         self.assertEqual(args.debile_user, 'john')
         self.assertEqual(args.conf_dir, '~/debile')
@@ -69,6 +72,7 @@ class SlaveImportConfTestCase(unittest.TestCase):
         self.assertEqual(args.secret_keyring, '~/secret.gpg')
         self.assertEqual(args.auth_method, 'simple')
         self.assertEqual(args.tarball, 'tarball.tar.gz')
+        self.assertEqual(args.gpg_home_dir, '~/')
 
 
     def test_get_attribute_from_tarfile(self):
@@ -126,7 +130,8 @@ class SlaveImportConfTestCase(unittest.TestCase):
         with tarfile.open('tests/resources/blade01.tar.gz', 'r:gz') as tf:
             pub_key = import_conf.get_attribute_from_tarfile('key.pub', tf)
 
-        import_conf.import_pgp(self.user, pub_key, 'public', self.keyring)
+        import_conf.import_pgp(self.user, pub_key, 'public', self.keyring,
+                self.gpg_home)
 
         out,_,_ = run_command(['gpg', '--list-keys', '--keyring', self.keyring])
 
@@ -138,7 +143,7 @@ class SlaveImportConfTestCase(unittest.TestCase):
             priv_key = import_conf.get_attribute_from_tarfile('key.priv', tf)
 
         import_conf.import_pgp(self.user, priv_key, 'secret',
-                self.secret_keyring)
+                self.secret_keyring, self.gpg_home)
 
         out,_,_ = run_command(['gpg', '--list-keys', '--keyring',
             self.secret_keyring])
@@ -154,7 +159,7 @@ class SlaveImportConfTestCase(unittest.TestCase):
             pub_key = import_conf.get_attribute_from_tarfile('name', tf)
 
         self.assertRaises(GpgImportException, import_conf.import_pgp, self.user,
-            pub_key, 'public', keyring)
+            pub_key, 'public', keyring, self.gpg_home)
 
 
     def test_import_conf_simple_auth(self):
@@ -166,7 +171,7 @@ class SlaveImportConfTestCase(unittest.TestCase):
         self.write_yaml(data)
 
         import_conf.import_conf(self.user, conf_dir, tarball, self.keyring,
-                self.secret_keyring, auth_method)
+                self.secret_keyring, auth_method, self.gpg_home)
 
         out = self.load_yaml()
 
@@ -192,7 +197,7 @@ class SlaveImportConfTestCase(unittest.TestCase):
         self.write_yaml(data)
 
         import_conf.import_conf(self.user, conf_dir, tarball, self.keyring,
-                self.secret_keyring, auth_method)
+                self.secret_keyring, auth_method, self.gpg_home)
 
         out = self.load_yaml()
 
