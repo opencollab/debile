@@ -10,34 +10,35 @@ import unittest
 
 
 class DebileInterfaceTestCase(unittest.TestCase):
-    # setup the database
-    if 'DATABASE_URI' in os.environ:
-        db_URI = os.environ['DATABASE_URI']
-    else:
-        # See README.md for the doc
-        db_URI = 'postgres://debile:foobar@127.0.0.1:5432/debile_tests'
-    engine = create_engine(db_URI,
-                            implicit_returning=False)
+    @classmethod
+    def setUpClass(self):
+        # setup the database
+        if 'DATABASE_URI' in os.environ:
+            db_URI = os.environ['DATABASE_URI']
+        else:
+            # See README.md for the doc
+            db_URI = 'postgres://debile:foobar@127.0.0.1:5432/debile_tests'
+        engine = create_engine(db_URI,
+                                implicit_returning=False)
 
-    Session = sessionmaker()
-    Session.configure(bind=engine)
-    session = Session()
-    session = Session()
-    Base.metadata.drop_all(session.bind)
+        Session = sessionmaker()
+        Session.configure(bind=engine)
+        self.session = Session()
+        Base.metadata.drop_all(self.session.bind)
 
-    # feed database
-    class Args:
-        pass
-    args = Args()
-    args.file = 'tests/resources/debile.yaml'
-    args.force = False
-    dimport(args, session)
+        # feed database
+        class Args:
+            pass
+        args = Args()
+        args.file = 'tests/resources/debile.yaml'
+        args.force = False
+        dimport(args, self.session)
 
-    # some more setting up
-    u = session.query(Person).filter_by(
-        email='clement@mux.me'
-    ).first()
-    NAMESPACE.user = u
+        # some more setting up
+        u = self.session.query(Person).filter_by(
+            email='clement@mux.me'
+        ).first()
+        NAMESPACE.user = u
 
 
     def setUp(self):
