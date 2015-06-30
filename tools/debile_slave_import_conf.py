@@ -51,7 +51,7 @@ def ensure_uid(user):
         os.setuid(uid)
 
 
-def import_pgp(user, pgp_key, key_type, keyring):
+def import_pgp(user, pgp_key, key_type, keyring, gpg_home_dir):
     ensure_uid(user)
 
     if key_type == 'public':
@@ -63,10 +63,12 @@ def import_pgp(user, pgp_key, key_type, keyring):
         raise GpgImportException
 
     out, err, code = run_command(['gpg', '--batch', '--import', '--status-fd',
-                                  '1', '--no-default-keyring', keyring_type,
-                                  keyring], input=pgp_key)
+                                  '1', '--no-default-keyring', '--homedir',
+                                  gpg_home_dir, keyring_type, keyring],
+                                  input=pgp_key)
 
     if code != 0:
+        print("STDERR: {0}".format(err))
         print("GPG import failed: {0}".format(code))
         raise GpgImportException
 
@@ -93,7 +95,8 @@ def write_conf(conf_dir, name, key, auth_method):
                 xmlrpc['auth_method'] = 'simple'
 
 
-def import_conf(user, conf_dir, tarball, keyring, secret_keyring, auth_method):
+def import_conf(user, conf_dir, tarball, keyring, secret_keyring, auth_method,
+        gpg_home_dir):
     """
     Import the slave configuration from the tarball.
     :param str auth: authentication method (ssl or simple)
@@ -108,9 +111,9 @@ def import_conf(user, conf_dir, tarball, keyring, secret_keyring, auth_method):
         write_conf(conf_dir, name, key, auth_method)
 
         import_pgp(user, get_attribute_from_tarfile('key.pub', tf),
-                   'public', keyring)
+                   'public', keyring, gpg_home_dir)
         import_pgp(user, get_attribute_from_tarfile('key.priv', tf),
-                   'secret', secret_keyring)
+                   'secret', secret_keyring, gpg_home_dir)
 
 
 def parse_args(args):
@@ -128,6 +131,9 @@ def parse_args(args):
                         dest="secret_keyring",
                         default="~/.gnupg/secring.gpg",
                         help="GPG secret keyring (default: ~/.gnupg/secring.gpg)")
+    parser.add_argument("--gpg-home", action="store", dest="gpg_home_dir",
+                        default="~/.gnupg/",
+                        help="GPG public keyring (default: ~/.gnupg/pubring.gpg)")
 
     parser.add_argument("--auth", action="store", dest="auth_method",
                         default='ssl',
@@ -144,7 +150,8 @@ if __name__ == "__main__":
 
     try:
         import_conf(args.debile_user, args.conf_dir, args.tarball,
-                    args.keyring, args.secret_keyring, args.auth_method)
+                    args.keyring, args.secret_keyring, args.auth_method,
+                    args.gpg_home_dir)
     except WrongUserException:
         print("Cannot set correct uid in the system.")
     except GpgImportException:
