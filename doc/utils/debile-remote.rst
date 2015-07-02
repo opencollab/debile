@@ -23,3 +23,12 @@ After, we need to enable plugin for a given group and suite:
  $ debile-remote enable-check <check-name> <group> <suite>
 
 Done. Now your plugin works in slave(s) :-)
+
+How to create user with simple authentication
+---------------------------------
+
+Just execute the command below:
+
+ $ debile-remote create-user-ip <name> <email> <pgp_file> <ip_address>
+
+where <pgp_file> should be a file that contains your exported pgp public key.
