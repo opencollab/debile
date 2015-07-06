@@ -186,6 +186,8 @@ class Changes(object):
             if item.endswith('.dsc'):
                 return item
 
+        return None
+
     def get_diff(self):
         """
         Returns the name of the .diff.gz file if there is one, otherwise None.

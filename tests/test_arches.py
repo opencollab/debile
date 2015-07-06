@@ -117,3 +117,100 @@ def test_hurd_arches():
             'hurd-i386', 'hurd-amd64', 'armel'
         ], valid_arches)
     ])
+
+
+from debile.master.arches import arch_matches
+from debile.master.orm import Arch
+
+import unittest
+import mock
+
+
+class ArchesTestCase(unittest.TestCase):
+    arches = [
+        Arch(name="amd64"),
+        Arch(name="sparc"),
+        Arch(name="ppc64"),
+        Arch(name="kfreebsd-amd64"),
+        Arch(name="kfreebsd-i386"),
+        Arch(name="hurd-amd64"),
+        Arch(name="hurd-i386"),
+        Arch(name="armhf"),
+        Arch(name="armel"),
+        Arch(name="mips"),
+    ]
+
+
+    def test_arch_matches_arch_equal_alias(self):
+        self.assertTrue(arch_matches('amd64','amd64'))
+
+
+    def test_arch_matches_pseudo_arches(self):
+        self.assertFalse(arch_matches('all', 'amd64'))
+        self.assertFalse(arch_matches('source', 'amd64'))
+
+
+    def test_arch_matches_any_arch(self):
+        self.assertTrue(arch_matches('amd64', 'any'))
+
+
+    def test_arch_matches_linux_any_alias(self):
+        self.assertTrue(arch_matches('amd64', 'linux-any'))
+        self.assertTrue(arch_matches('linux-amd64', 'linux-any'))
+        self.assertFalse(arch_matches('hurd-i386', 'linux-any'))
+
+
+    def test_arch_matches_ends_with_any(self):
+        self.assertTrue(arch_matches('bsd-amd64', 'bsd-any'))
+        self.assertFalse(arch_matches('linux-amd64', 'kfreebsd-any'))
+
+
+    def test_arch_matches_without_dash(self):
+        self.assertFalse(arch_matches('any', 'amd64'))
+
+
+    @mock.patch('debile.master.arches.run_command', return_value=(0,0,0))
+    def test_arch_matches_with_successful_run_command(self, mock):
+        self.assertTrue(arch_matches('linux-amd64', 'amd64'))
+
+
+    @mock.patch('debile.master.arches.run_command', return_value=(2,2,2))
+    def test_arch_matches_with_unsuccessful_run_command(self, mock):
+        self.assertFalse(arch_matches('linux-amd64', 'i386'))
+
+
+    def test_get_preferred_affinity_value_error(self):
+        affinity = ['linux-amd64']
+        valid = ['linux-i386']
+
+        self.assertRaises(ValueError, get_preferred_affinity, affinity, valid,
+                self.arches)
+
+
+    @mock.patch('debile.master.arches.arch_matches', return_value=True)
+    def test_get_preferred_affinity(self, mock):
+        affinity = ['amd64']
+        valid = ['i386']
+
+        arch = get_preferred_affinity(affinity, valid, self.arches)
+
+        self.assertEquals(arch.name, 'amd64')
+
+
+    @mock.patch('debile.master.arches.arch_matches', return_value=False)
+    def test_get_source_arches_without_matches(self, mock):
+        dsc_arch = ['linux-i386']
+
+        ret = get_source_arches(dsc_arch, self.arches)
+
+        self.assertEquals(ret, [])
+
+
+    @mock.patch('debile.master.arches.arch_matches', return_value=True)
+    def test_get_source_arches_without_matches(self, mock):
+        dsc_arch = ['amd64', 'sparc']
+
+        ret = get_source_arches(dsc_arch, self.arches)
+
+        self.assertEquals(ret[0].name, 'amd64')
+        self.assertEquals(ret[1].name, 'sparc')
