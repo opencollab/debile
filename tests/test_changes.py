@@ -156,3 +156,32 @@ class ChangesTestCase(unittest.TestCase):
 
         self.assertTrue(mock.is_called)
         self.assertEquals(key, '000ABC345')
+
+
+    @mock.patch('debile.utils.deb822.Changes',
+            return_value={'distribution':'unstable'})
+    def test_get_item(self, mock):
+        new_change = changes.Changes(string='Update package')
+
+        self.assertEquals(new_change.__getitem__('distribution'), 'unstable')
+
+
+    @mock.patch('debile.utils.deb822.Changes', return_value={'key':'value'})
+    def test_contains(self, mock):
+        new_change = changes.Changes(string='Update package')
+
+        self.assertTrue(new_change.__contains__('key'))
+
+
+    @mock.patch('debile.utils.deb822.Changes', return_value={'key':'value'})
+    def test_get_with_defined_key(self, mock):
+        new_change = changes.Changes(string='Update package')
+
+        self.assertEquals(new_change.get('key'), 'value')
+
+
+    @mock.patch('debile.utils.deb822.Changes', return_value={'key':'value'})
+    def test_get_without_defined_key(self, mock):
+        new_change = changes.Changes(string='Update package')
+
+        self.assertEquals(new_change.get('key2', default='value2'), 'value2')
