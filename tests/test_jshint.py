@@ -9,7 +9,7 @@ import mock
 
 class JSHintTestCase(unittest.TestCase):
     filepath = "tests/resources/libjs-term.js_0.0.4-1.dsc"
-    firehorse_results = Analysis(
+    firehose_results = Analysis(
         metadata=Metadata(
             generator=Generator(
                 name='jshint'
@@ -37,7 +37,7 @@ class JSHintTestCase(unittest.TestCase):
 
 
     def test_jshint(self):
-        jshint_analysis = jshint(self.filepath, self.firehorse_results)
+        jshint_analysis = jshint(self.filepath, self.firehose_results)
         content = jshint_analysis[1]
 
         self.assertTrue("Bad line breaking" in content)
@@ -49,9 +49,9 @@ class JSHintTestCase(unittest.TestCase):
     @mock.patch('debile.slave.runners.jshint.run_command',
             return_value=(None, 'jshint v2.8.0', 1))
     def test_jshint_with_none_output(self, mock):
-        jshint_analysis = jshint(self.filepath, self.firehorse_results)
+        jshint_analysis = jshint(self.filepath, self.firehose_results)
 
-        self.assertEquals(jshint_analysis[0], self.firehorse_results)
+        self.assertEquals(jshint_analysis[0], self.firehose_results)
         self.assertIsNone(jshint_analysis[1])
         self.assertTrue(jshint_analysis[2])
         self.assertIsNone(jshint_analysis[3])
@@ -59,7 +59,7 @@ class JSHintTestCase(unittest.TestCase):
 
 
     def test_jshint_wrappers(self):
-        jshint_analysis = jshint(self.filepath, self.firehorse_results)
+        jshint_analysis = jshint(self.filepath, self.firehose_results)
         issues = parse_jshint(jshint_analysis[1].splitlines())
         i = 0
         found = None

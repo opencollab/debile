@@ -8,7 +8,7 @@ import mock
 
 class FindbugsTestCase(unittest.TestCase):
     filepath = 'tests/resources/libjdom1-java_1.1.3-1_all.deb'
-    firehorse_results = Analysis(
+    firehose_results = Analysis(
         metadata=Metadata(
             generator=Generator(
                 name='findbugs'
@@ -36,7 +36,7 @@ class FindbugsTestCase(unittest.TestCase):
 
 
     def test_findbugs(self):
-        findbugs_analysis = findbugs(self.filepath, self.firehorse_results)
+        findbugs_analysis = findbugs(self.filepath, self.firehose_results)
         content = findbugs_analysis[1]
         self.assertTrue("The following classes needed for analysis" in content)
 
@@ -48,4 +48,4 @@ class FindbugsTestCase(unittest.TestCase):
             return_value=(0, 'error', -1))
     def test_findbugs_with_exception(self, mock):
         self.assertRaises(Exception, findbugs, self.filepath,
-            self.firehorse_results)
+            self.firehose_results)

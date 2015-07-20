@@ -9,7 +9,7 @@ import mock
 
 class LintianTestCase(unittest.TestCase):
     filepath = "tests/resources/libjsoncpp0_0.6.0~rc2-3.1_amd64.deb"
-    firehorse_results = Analysis(
+    firehose_results = Analysis(
         metadata=Metadata(
             generator=Generator(
                 name='lintian'
@@ -37,7 +37,7 @@ class LintianTestCase(unittest.TestCase):
 
 
     def test_lintian(self):
-        lintian_analysis = lintian(self.filepath, self.firehorse_results)
+        lintian_analysis = lintian(self.filepath, self.firehose_results)
         content = lintian_analysis[1]
         self.assertTrue("no-symbols-control-file" in content)
 
@@ -46,7 +46,7 @@ class LintianTestCase(unittest.TestCase):
 
 
     def test_lintian_wrappers(self):
-        lintian_analysis = lintian(self.filepath, self.firehorse_results)
+        lintian_analysis = lintian(self.filepath, self.firehose_results)
         issues = parse_lintian(lintian_analysis[1].splitlines(), self.filepath)
         i = 0
         for issue in issues:
