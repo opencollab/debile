@@ -9,7 +9,7 @@ import mock
 
 class Pep8TestCase(unittest.TestCase):
     filepath = "tests/resources/python-firehose_0.3-1.dsc"
-    firehorse_results = Analysis(
+    firehose_results = Analysis(
         metadata=Metadata(
             generator=Generator(
                 name='pep8'
@@ -37,7 +37,7 @@ class Pep8TestCase(unittest.TestCase):
 
 
     def test_pep8(self):
-        pep8_analysis = pep8(self.filepath, self.firehorse_results)
+        pep8_analysis = pep8(self.filepath, self.firehose_results)
         content = pep8_analysis[1]
         self.assertTrue("missing whitespace around operator" in content)
 
@@ -46,7 +46,7 @@ class Pep8TestCase(unittest.TestCase):
 
 
     def test_pep8_wrappers(self):
-        pep8_analysis = pep8(self.filepath, self.firehorse_results)
+        pep8_analysis = pep8(self.filepath, self.firehose_results)
         issues = parse_pep8(pep8_analysis[1].splitlines())
         i = 0
         for issue in issues:

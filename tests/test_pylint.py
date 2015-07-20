@@ -9,7 +9,7 @@ import mock
 
 class PylintTestCase(unittest.TestCase):
     filepath = "tests/resources/python-firehose_0.3-1.dsc"
-    firehorse_results = Analysis(
+    firehose_results = Analysis(
         metadata=Metadata(
             generator=Generator(
                 name='pylint'
@@ -39,7 +39,7 @@ class PylintTestCase(unittest.TestCase):
 
 
     def test_pylint(self):
-        pylint_analysis = pylint(self.filepath, self.firehorse_results)
+        pylint_analysis = pylint(self.filepath, self.firehose_results)
         content = pylint_analysis[1]
         self.assertTrue("Missing method docstring" in content)
 
@@ -48,7 +48,7 @@ class PylintTestCase(unittest.TestCase):
 
 
     def test_pylint_wrappers(self):
-        pylint_analysis = pylint(self.filepath, self.firehorse_results)
+        pylint_analysis = pylint(self.filepath, self.firehose_results)
         issues = parse_pylint(pylint_analysis[1].splitlines())
         i = 0
         for issue in issues:

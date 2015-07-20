@@ -8,6 +8,11 @@ before_install:
   - pip install -e ../firewoes
   - sudo apt-get update
   - sudo apt-get install -qq cppcheck lintian npm
+  - sudo apt-get install -qq libdom4j-java junit4 libasm3-java libjaxen-java libcommons-lang-java libjdepend-java libjcip-annotations-java java-wrappers libjsr305-java
+  - wget ftp://ftp.debian.org/debian/pool/main/f/findbugs-bcel/libfindbugs-bcel-java_6.0~rc3-1_all.deb
+  - wget ftp://ftp.debian.org/debian/pool/main/j/jformatstring/libjformatstring-java_0.10~20131207-1_amd64.deb
+  - wget ftp://ftp.debian.org/debian/pool/main/f/findbugs/findbugs_2.0.3+repack-1_all.deb
+  - sudo dpkg -i libfindbugs-bcel-java_6.0~rc3-1_all.deb libjformatstring-java_0.10~20131207-1_amd64.deb findbugs_2.0.3+repack-1_all.deb
   - travis_retry npm install -g jshint
   - jshint -v
   - gem install roodi

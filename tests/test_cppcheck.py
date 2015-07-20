@@ -10,7 +10,7 @@ import mock
 
 class CppcheckTestCase(unittest.TestCase):
     file_path="tests/resources/libjsoncpp_0.6.0~rc2-3.1.dsc"
-    firehorse_results = Analysis(
+    firehose_results = Analysis(
         metadata=Metadata(
             generator=Generator(
                 name='cppcheck'
@@ -38,7 +38,7 @@ class CppcheckTestCase(unittest.TestCase):
 
 
     def test_cppcheck(self):
-        cpp_analysis = cppcheck(self.file_path, self.firehorse_results)
+        cpp_analysis = cppcheck(self.file_path, self.firehose_results)
         xml_content = cpp_analysis[1]
         tree = lxml.etree.fromstring(xml_content.encode('utf-16'))
         i = 0
@@ -66,9 +66,9 @@ class CppcheckTestCase(unittest.TestCase):
     @mock.patch('debile.slave.runners.cppcheck.run_command',
             return_value=('', '    ', 0))
     def test_cppcheck_with_withespace_in_stderr(self, mock):
-        cpp_analysis = cppcheck(self.file_path, self.firehorse_results)
+        cpp_analysis = cppcheck(self.file_path, self.firehose_results)
 
-        self.assertEquals(cpp_analysis[0], self.firehorse_results)
+        self.assertEquals(cpp_analysis[0], self.firehose_results)
         self.assertEquals(cpp_analysis[1], '    ')
         self.assertFalse(cpp_analysis[2])
         self.assertIsNone(cpp_analysis[3])
@@ -76,7 +76,7 @@ class CppcheckTestCase(unittest.TestCase):
 
 
     def test_cppcheck_wrappers(self):
-        cpp_analysis = cppcheck(self.file_path, self.firehorse_results)
+        cpp_analysis = cppcheck(self.file_path, self.firehose_results)
         issues = parse_cppcheck(cpp_analysis[1])
         i = 0
         for issue in issues:

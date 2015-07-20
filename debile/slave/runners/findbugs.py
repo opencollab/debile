@@ -1,6 +1,7 @@
 # Copyright (c) 2012-2013 Paul Tagliamonte <paultag@debian.org>
 # Copyright (c) 2013 Leo Cavaille <leo@cavaille.net>
 # Copyright (c) 2013 Sylvestre Ledru <sylvestre@debian.org>
+# Copyright (c) 2015 Lucas Kanashiro <kanashiro.duarte@gmail.com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,7 +29,11 @@ import os
 
 
 def findbugs(deb, analysis):
-    run_command(["dpkg", "-x", deb, "binary"])
+    _, err, ret = run_command(["dpkg", "-x", deb, "binary"])
+
+    if ret != 0:
+        raise Exception("Cannot extract binary from deb:" + err)
+
     with cd('binary'):
         # Force english as findbugs is localized
         os.putenv("LANG", "C")
@@ -56,5 +61,5 @@ def version():
     out, _, ret = run_command(['fb', '-version'])
     if ret != 0:
         raise Exception("findbugs is not installed")
-    name, version = out.split(" ")
-    return (name, version.strip())
+    version = out.strip()
+    return ('findbugs', version.strip())
