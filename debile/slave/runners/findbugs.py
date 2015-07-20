@@ -29,7 +29,11 @@ import os
 
 
 def findbugs(deb, analysis):
-    run_command(["dpkg", "-x", deb, "binary"])
+    _, err, ret = run_command(["dpkg", "-x", deb, "binary"])
+
+    if ret != 0:
+        raise Exception("Cannot extract binary from deb:" + err)
+
     with cd('binary'):
         # Force english as findbugs is localized
         os.putenv("LANG", "C")

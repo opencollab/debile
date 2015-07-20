@@ -42,3 +42,10 @@ class FindbugsTestCase(unittest.TestCase):
 
         # It think it is safe to say that the string is not 4 chars long
         self.assertTrue(len(content) > 4)
+
+
+    @mock.patch('debile.slave.runners.findbugs.run_command',
+            return_value=(0, 'error', -1))
+    def test_findbugs_with_exception(self, mock):
+        self.assertRaises(Exception, findbugs, self.filepath,
+            self.firehorse_results)
