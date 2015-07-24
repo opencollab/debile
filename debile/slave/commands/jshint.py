@@ -21,7 +21,7 @@
 from debile.slave.runners.jshint import jshint, version
 
 
-def run(dsc, job, firehose):
+def run(dsc, package, job, firehose):
     return jshint(dsc, firehose)
 
 
