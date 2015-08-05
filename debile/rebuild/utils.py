@@ -43,6 +43,9 @@ import hashlib
 import time
 import os
 
+from debile.utils.commands import run_command
+from debile.slave.utils import cd, tdir
+
 
 class MissingChangesFieldException(Exception):
     """ Some field is missing in the DSC file """
@@ -51,45 +54,6 @@ class MissingChangesFieldException(Exception):
 
     def __str__(self):
         return 'Missing {0} field.'.format(self.value)
-
-
-@contextmanager
-def tdir():
-    fp = tempfile.mkdtemp()
-    try:
-        yield fp
-    finally:
-        shutil.rmtree(fp)
-
-
-@contextmanager
-def cd(where):
-    ncwd = os.getcwd()
-    try:
-        yield os.chdir(where)
-    finally:
-        os.chdir(ncwd)
-
-
-def run_command(command, stdin=None):
-    if not isinstance(command, list):
-        command = shlex.split(command)
-    try:
-        pipe = subprocess.Popen(command, shell=False,
-                                stdin=subprocess.PIPE,
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE)
-    except OSError:
-        return (None, None, -1)
-
-    kwargs = {}
-    if stdin:
-        kwargs['input'] = stdin.read()
-
-    (output, stderr) = pipe.communicate(**kwargs)
-    output, stderr = (c.decode('utf-8',
-                               errors='ignore') for c in (output, stderr))
-    return (output, stderr, pipe.returncode)
 
 
 def pool_path(source):
