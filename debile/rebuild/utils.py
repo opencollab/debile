@@ -24,12 +24,7 @@
 # This isn't perfect, but it'll do.
 
 from debian import deb822
-import tempfile
-import subprocess
-import shutil
-from contextlib import contextmanager
 import os
-import shlex
 
 try:
     import configparser
@@ -38,7 +33,6 @@ except ImportError:
 
 import datetime as dt
 import email.utils
-import tarfile
 import hashlib
 import time
 import os
@@ -205,8 +199,6 @@ def forge_changes_file(fname, dist, **kwargs):
         urgency=changes['Urgency'],
         dist=dist,
     )
-
-
 
     for k, v in kwargs.items():
         changes[k] = v

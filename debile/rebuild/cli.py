@@ -25,6 +25,7 @@ from clint import Args
 
 args = Args()
 
+
 def forge_changes():
     dist = None
     for flag in args.flags:
