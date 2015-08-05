@@ -41,11 +41,11 @@ flavors = {
             'debile-incoming = debile.master.cli:process_incoming',
         ],
     }),  # Master config
-    "setup.ricky.py": ("debile.ricky", [
-        'debile.ricky'
+    "setup.rebuild.py": ("debile.rebuild", [
+        'debile.rebuild'
     ], {
         'console_scipts': [
-            'debile-rebuild = debile.ricky.rebuild'
+            'debile-rebuild = debile.rebuild.rebuild'
         ],
     }),  # Ricky config
 }
