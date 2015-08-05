@@ -2,4 +2,4 @@ python-debian
 chardet
 pyyaml
 requests
-
+clint

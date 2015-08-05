@@ -16,10 +16,13 @@ Dear world:
 
 flavors = {
     "setup.py": ("debile", [
-        'debile', 'debile.utils'
+        'debile',
+        'debile.utils',
+        'debile.rebuild'
     ], {
         'console_scripts': [
             'debile-remote = debile.utils.cli:main',
+            'debile-rebuild = debile.rebuild.rebuild'
         ],
     }),  # Default config
     "setup.slave.py": ("debile.slave", [
@@ -41,13 +44,6 @@ flavors = {
             'debile-incoming = debile.master.cli:process_incoming',
         ],
     }),  # Master config
-    "setup.rebuild.py": ("debile.rebuild", [
-        'debile.rebuild'
-    ], {
-        'console_scipts': [
-            'debile-rebuild = debile.rebuild.rebuild'
-        ],
-    }),  # Ricky config
 }
 
 appname, packages, scripts = flavors[__file__]
