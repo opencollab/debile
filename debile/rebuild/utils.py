@@ -68,8 +68,8 @@ def run(cmd):
 
 
 def fetch_and_upload(dist, source, version, **kwargs):
-    from ricky import DEFAULT_MIRROR
-    confFile = "/etc/ricky.ini"
+    from . import DEFAULT_MIRROR
+    confFile = "/etc/debile-rebuild.ini"
     config = configparser.ConfigParser({'mirror': DEFAULT_MIRROR})
     if not os.path.isfile(confFile):
         raise Exception("Could not find " + confFile)
@@ -191,8 +191,8 @@ def forge_changes_file(fname, dist, **kwargs):
     changes['Changes'] = """
  {source} ({version}) {dist}; urgency={urgency}
  .
-   * This is a fake ChangeLog entry used by ricky to force a rebuild
-     on debuild.me.""".format(
+   * This is a fake ChangeLog entry used by debile to force a rebuild
+     on debile.debian.net.""".format(
         source=changes['Source'],
         version=changes['Version'],
         urgency=changes['Urgency'],

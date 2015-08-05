@@ -22,6 +22,7 @@ flavors = {
     ], {
         'console_scripts': [
             'debile-remote = debile.utils.cli:main',
+            'debile-upload = debile.rebuild.cli:upload_package',
             'debile-rebuild = debile.rebuild.rebuild'
         ],
     }),  # Default config
