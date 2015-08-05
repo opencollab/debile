@@ -24,7 +24,6 @@
 # This isn't perfect, but it'll do.
 
 from debian import deb822
-import os
 
 try:
     import configparser
@@ -161,7 +160,7 @@ def forge_changes_file(fname, dist, **kwargs):
         'Source', 'Version', 'Maintainer',
         'Checksums-Sha1', 'Checksums-Sha256', 'Files'
     ]:
-        if not dsc.has_key(key):
+        if key not in dsc:
             raise MissingChangesFieldException(key)
 
         changes[key] = dsc[key]

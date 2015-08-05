@@ -40,7 +40,7 @@ def forge_changes():
         raise Exception("No dist given with --dist=unstable")
 
     for what in args.files:
-        changes = write_changes(what, dist)
+        write_changes(what, dist)
 
 
 def upload_package():
