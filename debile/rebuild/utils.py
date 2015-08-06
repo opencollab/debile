@@ -80,7 +80,7 @@ def fetch_and_upload(dist, source, version, **kwargs):
 
     eversion = version
     if ":" in eversion:
-        epoch, eversion = version.rsplit(":", 1)
+        _, eversion = version.rsplit(":", 1)
 
     if "incoming.debian.org" == mirror:
         DSC_URL = (
@@ -102,7 +102,7 @@ def fetch_and_upload(dist, source, version, **kwargs):
 
     with tdir() as pth:
         with cd(pth):
-            out, err, ret = run_command(['dget', '-u', DSC_URL])
+            _, err, ret = run_command(['dget', '-u', DSC_URL])
             if ret == 0:
                 dsc = os.path.basename(DSC_URL)
                 try:
@@ -137,7 +137,7 @@ def write_changes(fname, dist, **kwargs):
     version = changes['Version']
     eversion = version
     if ":" in eversion:
-        epoch, eversion = version.rsplit(":", 1)
+        _, eversion = version.rsplit(":", 1)
 
     path = '{source}_{version}_source.changes'.format(
         source=changes['Source'],
