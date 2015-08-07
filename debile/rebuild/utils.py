@@ -35,6 +35,8 @@ import email.utils
 import hashlib
 import time
 import os
+from contextlib import contextmanager
+import tempfile
 
 from debile.utils.commands import run_command
 from debile.slave.utils import cd, tdir
@@ -47,6 +49,15 @@ class MissingChangesFieldException(Exception):
 
     def __str__(self):
         return 'Missing {0} field.'.format(self.value)
+
+
+@contextmanager
+def tmpfile():
+    lolwut, fd = tempfile.mkstemp()
+    try:
+        yield fd
+    finally:
+        os.unlink(fd)
 
 
 def pool_path(source):
