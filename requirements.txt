@@ -3,3 +3,4 @@ chardet
 pyyaml
 requests
 clint
+pymongo
