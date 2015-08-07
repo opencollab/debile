@@ -23,7 +23,6 @@ from debile.rebuild.utils import tmpfile
 from debile.rebuild.core import get_sources_uri, db, _get_context
 from contextlib import contextmanager
 import urllib2
-import json
 import gzip
 
 
@@ -35,12 +34,11 @@ def download_sources():
         yield (fd, _get_context())
 
 
-
 @contextmanager
 def process_sources():
     with download_sources() as info:
         fd, suite = info
-        with tmpfile() as newfd:
+        with tmpfile():
             f = gzip.open(fd, 'r')
             try:
                 yield (f, suite)
@@ -132,8 +130,8 @@ class Sources(dict):
         # print "I: New package: %s" % (key)
 
     def get_table(self):
-        base, suite, dist, version = (
-            self.base, self.suite, self.dist, self.version
+        suite, dist, version = (
+            self.suite, self.dist, self.version
         )
         table = getattr(getattr(getattr(db, dist), version), suite)
         return table
@@ -144,8 +142,8 @@ class Sources(dict):
             self.add_entry(PackageEntry(package))
 
     def save(self):
-        base, suite, dist, version = (
-            self.base, self.suite, self.dist, self.version
+        suite, dist, version = (
+            self.suite, self.dist, self.version
         )
         foo = "{dist}/{ver}/{sui}".format(
             dist=dist,
