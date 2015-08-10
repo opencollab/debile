@@ -184,3 +184,6 @@ Running debile-slave
 --------------------
 
  $ docker run --name debile-slave --link debile-master:debile-master --link debile-http:debile-http clemux/debile-slave
+
+
+ after this there is authentication failure, for this add ip address of debile-slave in builders table of database.
