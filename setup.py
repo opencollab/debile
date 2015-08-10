@@ -18,12 +18,17 @@ flavors = {
     "setup.py": ("debile", [
         'debile',
         'debile.utils',
-        'debile.rebuild'
+        'debile.rebuild',
+        'debile.rebuild.bin',
     ], {
         'console_scripts': [
             'debile-remote = debile.utils.cli:main',
             'debile-upload = debile.rebuild.cli:upload_package',
-            'debile-rebuild = debile.rebuild.rebuild'
+            'debile-rebuild = debile.rebuild.bin.rebuild',
+            'debile-nuke = debile.rebuild.bin.nuke',
+            'debile-query = debile.rebuild.bin.query',
+            'debile-rebuild-set = debile.rebuild.bin.rebuild-set',
+            'debile-update = debile.rebuild.bin.update',
         ],
     }),  # Default config
     "setup.slave.py": ("debile.slave", [
