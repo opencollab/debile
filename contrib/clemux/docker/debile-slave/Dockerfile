@@ -23,6 +23,8 @@ RUN sbuild-adduser debile
 
 RUN chown -R debile:debile /etc/debile/*
 
+COPY slave.yaml /etc/debile/
+
 USER debile
 
 COPY slave-keys.tar.gz /tmp/
