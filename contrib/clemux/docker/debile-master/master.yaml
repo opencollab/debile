@@ -9,7 +9,7 @@ xmlrpc:
     port: 22017
 
 keyrings:
-    pgp: /srv/debile/keyring.pgp
+    pgp: /srv/debile/.gnupg/pubring.gpg
 
 repo:
     # custom_resolver: devnull.foo.resolver
