@@ -184,3 +184,7 @@ Running debile-slave
 --------------------
 
  $ docker run --name debile-slave --link debile-master:debile-master --link debile-http:debile-http clemux/debile-slave
+
+ Tip: If you get authentication failure similar to this: 
+      <Slave ip address> - - [11/Aug/2015 05:46:28] code 401, message Authentication failed
+      update ip address of debile-slave in builders table of database.
