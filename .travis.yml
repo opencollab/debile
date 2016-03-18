@@ -31,7 +31,7 @@ before_script:
 # command to run tests
 script:
  - coverage run --source=. $(which nosetests)
-
+ - python setup.py test
 # flake8
 # warnings ignored:
 # * E241 (multiple spaces after ':', ',') -> we want to align stuff
