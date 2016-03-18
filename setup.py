@@ -27,7 +27,7 @@ flavors = {
             'debile-rebuild = debile.rebuild.bin.rebuild',
             'debile-nuke = debile.rebuild.bin.nuke',
             'debile-query = debile.rebuild.bin.query',
-            'debile-rebuild-set = debile.rebuild.bin.rebuild-set',
+            'debile-rebuild-set = debile.rebuild.bin.rebuild_set',
             'debile-update = debile.rebuild.bin.update',
         ],
     }),  # Default config
