@@ -200,7 +200,7 @@ Otherwise:
 
   $ docker run -d --name debile-http --volumes-from debile-data -v /var/log/nginx -p 80:80 clemux/debile-http
 
-  As for the postgres container, you can change the host port which will point to the container's nginx server, for example:
+As for the postgres container, you can change the host port which will point to the container's nginx server, for example:
 
   -p 8080:80
 
