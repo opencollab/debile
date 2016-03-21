@@ -76,7 +76,10 @@ http://www.mux.me/debile/python-firewoes_0.2+mux_all.deb
 Or build it from https://github.com/clemux/firewoes, branch
 ``iterative_uniquify``.
 
-Edit ``debile.yaml``.
+Edit ``debile.yaml``, section ``Users``. You can ignore all SSL fields.
+
+The most important setting to change is the ``pgp`` field: it should contain the
+fingerprint of the pgp key you will use to sign packages.
 
 Then you can build the image:
 
