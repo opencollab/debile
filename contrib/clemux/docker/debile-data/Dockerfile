@@ -10,6 +10,7 @@ RUN mkdir -p /srv/debile/repo/default/conf /srv/debile/repo/default/logs
 COPY reprepo-conf/* /srv/debile/repo/default/conf/
 
 RUN chown -R debile:debile /srv/debile
+RUN chmod a+rwx /srv/debile/incoming/UploadQueue
 
 USER debile
 
