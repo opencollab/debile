@@ -214,6 +214,24 @@ Running debile-slave
 
  $ docker run --name debile-slave --link debile-master:debile-master --link debile-http:debile-http clemux/debile-slave
 
- Tip: If you get authentication failure similar to this: 
+Tip: If you get an authentication failure similar to this:
+
       <Slave ip address> - - [11/Aug/2015 05:46:28] code 401, message Authentication failed
-      update ip address of debile-slave in builders table of database.
+      
+update the IP address of debile-slave in the builders table of the
+Postgres debile database. To do that, run on the host:
+
+ $ docker inspect debile-slave | grep IPAddress
+
+Note down the IP address. For example, it can be 172.17.0.177.
+
+Then connect to the database from the host:
+
+ $ psql -h localhost -U debile -d debile -W
+
+The password is 'debile', as above.
+
+Finally, assuming there is only one debile-slave and its IP address is
+172.17.0.177, update the builders table as follows:
+
+ debile=> UPDATE builders SET ip='172.17.0.177' WHERE id=1;
