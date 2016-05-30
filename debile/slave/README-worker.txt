@@ -32,14 +32,14 @@ The function takes as argument the output produced by the static analyzer.
 It can be a standard output, XML file, etc
 
 The goal of this function is to extract the relevant information from the input
-to generate a Issue object.
+to generate an Issue object.
 This object is created from the following information:
 * ID
 * location
 * severity
 * message
-* notes (optionnal)
-* trace (optionnal)
+* notes (optional)
+* trace (optional)
 
 
 == commands/yourstaticanalyzer.py ==
